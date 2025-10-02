@@ -229,39 +229,113 @@
   color: #ffffff;
 }
 
-/* Responsive Design */
+/* Mobile-first bounty board layout */
 @media (max-width: 768px) {
-  .bounty-header,
+  .bounty-board {
+    border: none;
+    background: transparent;
+  }
+  
+  .bounty-header {
+    display: none; /* Hide header on mobile */
+  }
+  
   .bounty-row {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
   
-  .bounty-column,
   .bounty-cell {
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.5rem;
-  }
-  
-  .bounty-column:last-child,
-  .bounty-cell:last-child {
-    border-bottom: none;
-  }
-  
-  .filter-tabs {
+    border: none;
+    padding: 0;
+    display: flex;
     flex-direction: column;
   }
   
+  .bounty-cell.deadline::before {
+    content: "DEADLINE: ";
+    font-weight: bold;
+    color: #00cc00;
+    font-size: 11px;
+    margin-bottom: 0.25rem;
+  }
+  
+  .bounty-cell.title::before {
+    content: "GAME: ";
+    font-weight: bold;
+    color: #00cc00;
+    font-size: 11px;
+    margin-bottom: 0.25rem;
+  }
+  
+  .bounty-cell.bounty::before {
+    content: "REWARD: ";
+    font-weight: bold;
+    color: #00cc00;
+    font-size: 11px;
+    margin-bottom: 0.25rem;
+  }
+  
+  .bounty-cell.difficulty::before {
+    content: "DIFFICULTY: ";
+    font-weight: bold;
+    color: #00cc00;
+    font-size: 11px;
+    margin-bottom: 0.25rem;
+  }
+  
+  .bounty-cell.deadline {
+    font-size: 12px;
+  }
+  
+  .bounty-cell.bounty {
+    font-size: 14px;
+  }
+  
+  .bounty-title {
+    font-size: 14px;
+    margin-bottom: 0.25rem;
+  }
+  
+  .bounty-description {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+  
+  .difficulty-badge,
+  .status-badge {
+    font-size: 10px;
+    padding: 0.2rem 0.4rem;
+  }
+  
+  .filter-tabs {
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+  
   .filter-tab {
-    text-align: center;
+    font-size: 12px;
+    padding: 0.5rem 0.75rem;
+    flex: 1;
+    min-width: 80px;
   }
 }
 
 @media (max-width: 480px) {
+  .terminal-body {
+    padding: 0.75rem;
+  }
+  
   .rules-update-box {
     padding: 0.75rem;
     font-size: 12px;
+    margin: 0.75rem 0;
   }
   
   .rules-title {
@@ -270,6 +344,7 @@
   
   .rules-text {
     font-size: 11px;
+    line-height: 1.3;
   }
   
   .how-to-header {
@@ -283,6 +358,7 @@
   
   .how-to-step {
     font-size: 11px;
+    padding: 0.25rem 0;
   }
   
   .bounty-cell {
@@ -290,11 +366,50 @@
     font-size: 12px;
   }
   
+  .bounty-cell.deadline {
+    font-size: 11px;
+  }
+  
+  .bounty-cell.bounty {
+    font-size: 13px;
+  }
+  
   .bounty-title {
     font-size: 13px;
+    margin-bottom: 0.25rem;
   }
   
   .bounty-description {
     font-size: 11px;
+    line-height: 1.2;
+  }
+  
+  .difficulty-badge,
+  .status-badge {
+    font-size: 9px;
+    padding: 0.15rem 0.3rem;
+  }
+  
+  .filter-tab {
+    font-size: 11px;
+    padding: 0.4rem 0.5rem;
+    min-width: 70px;
+  }
+  
+  .terminal-bottom-fixed {
+    padding: 1rem;
+  }
+  
+  .command-options {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .command-option {
+    font-size: 12px;
+  }
+  
+  .balance-display {
+    font-size: 12px;
   }
 }
