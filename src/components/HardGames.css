@@ -1,0 +1,282 @@
+/* Hard Games Page Styles - Inherits from LandingPage.css */
+.rules-update-box {
+  background: #ffa500;
+  color: #000000;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.rules-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 16px;
+}
+
+.rules-text {
+  font-size: 13px;
+}
+
+.how-to-section {
+  margin: 1rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.how-to-header {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 14px;
+  color: #ffffff;
+  transition: background-color 0.2s ease;
+}
+
+.how-to-header:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.warning-icon {
+  color: #ffa500;
+  font-size: 16px;
+}
+
+.how-to-content {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.how-to-step {
+  margin-bottom: 0.5rem;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 13px;
+  color: #cccccc;
+}
+
+.how-to-step:last-child {
+  margin-bottom: 0;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.filter-tab {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #888888;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.filter-tab:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.filter-tab.active {
+  background: #00cc00;
+  color: #000000;
+  border-color: #00cc00;
+}
+
+.bounty-board {
+  margin: 1rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bounty-header {
+  display: grid;
+  grid-template-columns: 1fr 2fr 0.8fr 0.8fr;
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bounty-column {
+  padding: 0.75rem 1rem;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffffff;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bounty-column:last-child {
+  border-right: none;
+}
+
+.bounty-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 0.8fr 0.8fr;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.bounty-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.bounty-row:last-child {
+  border-bottom: none;
+}
+
+.bounty-cell {
+  padding: 1rem;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 13px;
+  color: #ffffff;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: flex-start;
+}
+
+.bounty-cell:last-child {
+  border-right: none;
+}
+
+.bounty-cell.deadline {
+  color: #cccccc;
+  font-size: 12px;
+}
+
+.bounty-cell.title {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bounty-title {
+  font-weight: bold;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.bounty-description {
+  color: #cccccc;
+  font-size: 12px;
+  line-height: 1.4;
+  margin-left: 0.5rem;
+}
+
+.bounty-cell.bounty {
+  color: #00cc00;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.status-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-badge.active {
+  background: #00cc00;
+  color: #000000;
+}
+
+.status-badge.completed {
+  background: #0066cc;
+  color: #ffffff;
+}
+
+.status-badge.pending {
+  background: #ffa500;
+  color: #000000;
+}
+
+.status-badge.expired {
+  background: #666666;
+  color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .bounty-header,
+  .bounty-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .bounty-column,
+  .bounty-cell {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+  }
+  
+  .bounty-column:last-child,
+  .bounty-cell:last-child {
+    border-bottom: none;
+  }
+  
+  .filter-tabs {
+    flex-direction: column;
+  }
+  
+  .filter-tab {
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .rules-update-box {
+    padding: 0.75rem;
+    font-size: 12px;
+  }
+  
+  .rules-title {
+    font-size: 14px;
+  }
+  
+  .rules-text {
+    font-size: 11px;
+  }
+  
+  .how-to-header {
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+  
+  .how-to-content {
+    padding: 0.75rem;
+  }
+  
+  .how-to-step {
+    font-size: 11px;
+  }
+  
+  .bounty-cell {
+    padding: 0.75rem 0.5rem;
+    font-size: 12px;
+  }
+  
+  .bounty-title {
+    font-size: 13px;
+  }
+  
+  .bounty-description {
+    font-size: 11px;
+  }
+}
