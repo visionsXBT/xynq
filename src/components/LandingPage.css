@@ -102,6 +102,14 @@
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
 }
 
+.terminal-line.typing-text {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
 .terminal-line.prompt {
   color: #00cc00;
   font-weight: 500;
@@ -147,11 +155,26 @@
   animation: blink 1s infinite;
   color: #00cc00;
   font-weight: 500;
+  margin-left: 1px;
 }
 
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
+
+/* Enhanced typing animation styles */
+.terminal-line {
+  transition: none; /* Disable transitions for smooth typing */
+}
+
+.terminal-line.typing-text {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  color: #ffffff;
+  line-height: 1.2;
+  transition: none; /* Disable transitions for smooth typing */
 }
 
 /* Progress Bar Styles */

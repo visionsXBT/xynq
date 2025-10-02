@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import './LandingPage.css';
-import EasyGames from './EasyGames';
-import HardGames from './HardGames';
+import AllGames from './AllGames';
+import TypingText from './TypingText';
 
 const LandingPage = () => {
-  const [currentLine, setCurrentLine] = useState(0);
-  const [isTyping, setIsTyping] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [showProgress, setShowProgress] = useState(false);
-  const [progressComplete, setProgressComplete] = useState(false);
-  const [showInitLines, setShowInitLines] = useState(true);
   const [currentPage, setCurrentPage] = useState('main');
   const [solBalance, setSolBalance] = useState('25.8436');
+  const [animationPhase, setAnimationPhase] = useState('init'); // 'init', 'progress', 'terminal'
+  const [initComplete, setInitComplete] = useState(false);
+  const [terminalComplete, setTerminalComplete] = useState(false);
+
+  // Helper function to get line style
+  const getInitLineStyle = (line) => {
+    if (line.includes('lynq@invertbox')) return 'prompt';
+    if (line.includes('[INFO]')) return 'info';
+    if (line.includes('Establishing connection')) return 'connection';
+    return '';
+  };
+
+  const getTerminalLineStyle = (line) => {
+    if (line.includes('lynq@invertbox')) return 'prompt';
+    if (line.includes('[INFO]')) return 'info';
+    if (line.includes('#')) return 'ascii';
+    if (line.includes('Welcome, contestant') || line.includes('LYNQ — the showmaster') || line.includes('Play for SOL') || line.includes('The stage is set')) return 'welcome';
+    return '';
+  };
 
   // Fetch SOL balance
   const fetchSolBalance = async () => {
@@ -63,11 +77,6 @@ const LandingPage = () => {
   const terminalLines = [
     "#######################################################################",
     "#                                                                     #",
-    // "#                             .-^-.                                   #",
-    // "#                            ( •_• )                                  #",
-    // "#                            / >⌬< \\                                  #",
-    // "#                            |______|                                 #",
-    // "#                                                                     #",
     "#   		██      ██    ██ ██     ██     ██████                 #",
     "#   		██       ██  ██  ████    ██  ██      ██               #",
     "#   		██       ██  ██  ██  ██  ██  ██      ██               #",
@@ -85,7 +94,7 @@ const LandingPage = () => {
     "",
     "Welcome, contestant.",
     "LYNQ — the showmaster, trader, and game host — is live.",
-    "Play for SOL, win $LYNQ, and witness autonomous trades + challenges unfold.",
+    "Play for SOL, win $LYNQ, and a random holder receives 1$ every 10 minutes + challenges unfold.",
     "The stage is set. The prizes are real. The games are yours.",
     "",
     "lynq@invertbox:~$"
@@ -103,52 +112,31 @@ const LandingPage = () => {
   useEffect(() => {
     // Fetch SOL balance on component mount
     fetchSolBalance();
-
-    // Show initialization lines first
-    const initTimer = setInterval(() => {
-      setCurrentLine(prev => {
-        if (prev < initLines.length - 1) {
-          return prev + 1;
-        } else {
-          clearInterval(initTimer);
-          // Start progress animation after init lines complete
-          setTimeout(() => {
-            setShowProgress(true);
-            const progressTimer = setInterval(() => {
-              setProgress(prevProgress => {
-                if (prevProgress >= progressSteps.length - 1) {
-                  clearInterval(progressTimer);
-                  // Hide progress line and init lines after reaching 100%
-                  setTimeout(() => {
-                    setShowProgress(false);
-                    setShowInitLines(false);
-                    setProgressComplete(true);
-                    // Start showing ASCII art after progress completes
-                    const timer = setInterval(() => {
-                      setCurrentLine(prev => {
-                        if (prev < terminalLines.length - 1) {
-                          return prev + 1;
-                        } else {
-                          setIsTyping(false);
-                          return prev;
-                        }
-                      });
-                    }, 200);
-                    return () => clearInterval(timer);
-                  }, 1000);
-                  return prevProgress;
-                }
-                return prevProgress + 1;
-              });
-            }, 800);
-          }, 500);
-          return prev;
-        }
-      });
-    }, 300);
-
-    return () => clearInterval(initTimer);
   }, []);
+
+  // Handle animation phase transitions
+  useEffect(() => {
+    if (initComplete && animationPhase === 'init') {
+      // Move to progress phase
+      setAnimationPhase('progress');
+      setTimeout(() => {
+        // Start progress animation
+        const progressTimer = setInterval(() => {
+          setProgress(prevProgress => {
+            if (prevProgress >= progressSteps.length - 1) {
+              clearInterval(progressTimer);
+              // Move to terminal phase
+              setTimeout(() => {
+                setAnimationPhase('terminal');
+              }, 1000);
+              return prevProgress;
+            }
+            return prevProgress + 1;
+          });
+        }, 800);
+      }, 500);
+    }
+  }, [initComplete, animationPhase]);
 
   const handleNavigation = (page) => {
     setCurrentPage(page);
@@ -159,12 +147,8 @@ const LandingPage = () => {
   };
 
   // Render different pages based on currentPage state
-  if (currentPage === 'easy-games') {
-    return <EasyGames onBack={handleBackToMain} onNavigate={handleNavigation} solBalance={solBalance} />;
-  }
-
-  if (currentPage === 'hard-games') {
-    return <HardGames onBack={handleBackToMain} onNavigate={handleNavigation} solBalance={solBalance} />;
+  if (currentPage === 'games') {
+    return <AllGames onBack={handleBackToMain} onNavigate={handleNavigation} solBalance={solBalance} />;
   }
 
   return (
@@ -180,71 +164,41 @@ const LandingPage = () => {
         </div>
         <div className="terminal-body">
           <div className="terminal-content">
-            {showInitLines && initLines.slice(0, currentLine + 1).map((line, index) => {
-              let className = 'terminal-line';
-              
-              if (line.includes('lynq@invertbox')) {
-                className += ' prompt';
-              } else if (line.includes('[INFO]')) {
-                className += ' info';
-              } else if (line.includes('Establishing connection')) {
-                className += ' connection';
-              }
-              
-              return (
-                <div key={index} className={className}>
-                  {line}
-                  {index === currentLine && isTyping && <span className="cursor">█</span>}
-                </div>
-              );
-            })}
+            {animationPhase === 'init' && (
+              <TypingText
+                key="init-phase"
+                lines={initLines}
+                typingSpeed={30}
+                lineDelay={100}
+                getLineStyle={getInitLineStyle}
+                onComplete={() => setInitComplete(true)}
+              />
+            )}
             
-            {showProgress && (
+            {animationPhase === 'progress' && (
               <div className="terminal-line progress">
                 {progressSteps[progress]}
                 <span className="cursor">█</span>
               </div>
             )}
             
-            {progressComplete && terminalLines.slice(0, currentLine + 1).map((line, index) => {
-              let className = 'terminal-line';
-              
-              if (line.includes('lynq@invertbox')) {
-                className += ' prompt';
-              } else if (line.includes('[INFO]')) {
-                className += ' info';
-              } else if (line.includes('#')) {
-                className += ' ascii';
-              } else if (line.includes('Welcome, contestant') || line.includes('LYNQ — the showmaster') || line.includes('Play for SOL') || line.includes('The stage is set')) {
-                className += ' welcome';
-              }
-              
-              // Special handling for the cat command line
-              if (line === "lynq@invertbox:~$ cat welcome_message.txt") {
-                return (
-                  <div key={index} className={className}>
-                    lynq@invertbox:~$ cat <span style={{color: '#888888'}}>welcome_message.txt</span>
-                    {index === currentLine && isTyping && <span className="cursor">█</span>}
-                  </div>
-                );
-              }
-              
-              return (
-                <div key={index} className={className}>
-                  {line}
-                  {index === currentLine && isTyping && <span className="cursor">█</span>}
-                </div>
-              );
-            })}
+            {animationPhase === 'terminal' && (
+              <TypingText
+                key="terminal-phase"
+                lines={terminalLines}
+                typingSpeed={5}
+                lineDelay={25}
+                getLineStyle={getTerminalLineStyle}
+                onComplete={() => setTerminalComplete(true)}
+              />
+            )}
           </div>
         </div>
         
         {/* Fixed Bottom Section */}
         <div className="terminal-bottom-fixed">
           <div className="command-options">
-            <span className="command-option" onClick={() => handleNavigation('easy-games')}>easy games</span>
-            <span className="separator">✦</span>
-            <span className="command-option" onClick={() => handleNavigation('hard-games')}>hard games</span>
+            <span className="command-option" onClick={() => handleNavigation('games')}>games</span>
             <span className="separator">✦</span>
             <span className="command-option">curl x.com/invertbox</span>
             <span className="separator">✦</span>
