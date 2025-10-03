@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './LandingPage.css';
 import AllGames from './AllGames';
 import TypingText from './TypingText';
+import useScreenWidth from '../hooks/useScreenWidth';
 
 const LandingPage = () => {
   const [progress, setProgress] = useState(0);
@@ -10,6 +11,7 @@ const LandingPage = () => {
   const [animationPhase, setAnimationPhase] = useState('init'); // 'init', 'progress', 'terminal'
   const [initComplete, setInitComplete] = useState(false);
   const [terminalComplete, setTerminalComplete] = useState(false);
+  const { screenWidth, isMobile, isTablet, isLaptop, isDesktop } = useScreenWidth();
 
   // Helper function to get line style
   const getInitLineStyle = (line) => {
@@ -64,7 +66,7 @@ const LandingPage = () => {
     }
   };
 
-  const initLines = [
+  const initLines = useMemo(() => [
     "lynq@invertbox:~$ ./initiate_showtime.sh",
     "[INFO] Showtime protocol initializing...",
     "[INFO] Syncing wallets...",
@@ -72,23 +74,35 @@ const LandingPage = () => {
     "[INFO] Booting LYNQ personality core...",
     "Establishing connection to LYNQ...",
     // "[INFO] You have successfully connected to LYNQ."
-  ];
+  ], []);
 
-  const terminalLines = [
-    "#######################################################################",
-    "#                                                                     #",
-    "#   		██      ██    ██ ██     ██     ██████                 #",
-    "#   		██       ██  ██  ████    ██  ██      ██               #",
-    "#   		██       ██  ██  ██  ██  ██  ██      ██               #",
-    "#  		██       ██  ██  ██  ██  ██  ██      ██               #",
-    "#   		██         ██    ██  ██  ██  ██      ██               #",
-    "#   		██         ██    ██    ████  ██     ██		      #",
-    "#    	 	 ██████    ██    ██      ██    ██████ ██              #",
-    "#                                                                     #",
-    "#               YOU ARE NOW SUCCESSFULLY COMMUNICATING WITH           #",
-    "#                                                                     #",
-    "#                               LYNQ                                  #",
-    "#######################################################################",
+  // Full detailed ASCII art - responsive through CSS scaling
+  const getAsciiArt = () => {
+    return [
+      "#######################################################################",
+      "#                                                                     #",
+      "#                             .-^-.                                   #",
+      "#                            ( •_• )                                  #",
+      "#                            / >⌬< \\                                  #",
+      "#                            |______|                                 #",
+      "#                                                                     #",
+      "#   		██      ██    ██ ██     ██     ██████                 #",
+      "#   		██       ██  ██  ████    ██  ██      ██               #",
+      "#   		██       ██  ██  ██  ██  ██  ██      ██               #",
+      "#  		██       ██  ██  ██  ██  ██  ██      ██               #",
+      "#   		██         ██    ██  ██  ██  ██      ██               #",
+      "#   		██         ██    ██    ████  ██     ██		      #",
+      "#    	 	 ██████    ██    ██      ██    ██████ ██              #",
+      "#                                                                     #",
+      "#               YOU ARE NOW SUCCESSFULLY COMMUNICATING WITH           #",
+      "#                                                                     #",
+      "#                               LYNQ                                  #",
+      "#######################################################################"
+    ];
+  };
+
+  const terminalLines = useMemo(() => [
+    ...getAsciiArt(),
     "",
     "lynq@invertbox:~$ cat welcome_message.txt",
     "",
@@ -98,16 +112,16 @@ const LandingPage = () => {
     "The stage is set. The prizes are real. The games are yours.",
     "",
     "lynq@invertbox:~$"
-  ];
+  ], []);
 
-  const progressSteps = [
+  const progressSteps = useMemo(() => [
     "[=                   ] 10%  |▒                     |",
     "[===                 ] 25%  |▒▒▒                   |",
     "[=======             ] 50%  |▒▒▒▒▒▒▒               |",
     "[===========         ] 75%  |▒▒▒▒▒▒▒▒▒▒▒▒          |",
     "[=================== ] 99%  |▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒    |",
     "[====================] 100% |▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒|"
-  ];
+  ], []);
 
   useEffect(() => {
     // Fetch SOL balance on component mount

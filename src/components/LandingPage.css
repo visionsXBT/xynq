@@ -139,6 +139,20 @@
 .terminal-line.ascii {
   color: #00cc00;
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  white-space: pre;
+  overflow-x: auto;
+  font-size: inherit;
+  transform-origin: left top;
+  word-break: keep-all;
+}
+
+/* ASCII Art Container for better responsive handling */
+.ascii-art-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .terminal-line.manifesto {
@@ -281,6 +295,20 @@
 }
 
 /* Responsive Design */
+@media (min-width: 1600px) {
+  .terminal-line.ascii {
+    transform: scale(1.1);
+    transform-origin: left top;
+  }
+}
+
+@media (max-width: 1024px) {
+  .terminal-line.ascii {
+    transform: scale(0.9);
+    transform-origin: left top;
+  }
+}
+
 @media (max-width: 768px) {
   .terminal-page {
     padding: 1rem;
@@ -297,6 +325,13 @@
   
   .terminal-content {
     font-size: 14px;
+  }
+  
+  .terminal-line.ascii {
+    font-size: 12px;
+    line-height: 1.1;
+    transform: scale(0.8);
+    transform-origin: left top;
   }
   
   .terminal-line.command {
@@ -332,6 +367,14 @@
   
   .terminal-header {
     padding: 0.75rem 1rem;
+  }
+  
+  .terminal-line.ascii {
+    font-size: 10px;
+    line-height: 1.0;
+    transform: scale(0.6);
+    transform-origin: left top;
+    overflow-x: auto;
   }
   
   .command-options {
