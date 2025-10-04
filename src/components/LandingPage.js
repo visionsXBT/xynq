@@ -82,7 +82,7 @@ const LandingPage = () => {
       "#######################################################################",
       "#                                                                     #",
       "#                             .-^-.                                   #",
-      "#                            ( •_• )                                  #",
+      "#                            ( ✦‿✦)                                  #",
       "#                            / >⌬< \\                                  #",
       "#                            |______|                                 #",
       "#                                                                     #",
@@ -214,9 +214,9 @@ const LandingPage = () => {
           <div className="command-options">
             <span className="command-option" onClick={() => handleNavigation('games')}>games</span>
             <span className="separator">✦</span>
-            <span className="command-option">curl x.com/invertbox</span>
+            <span className="command-option">x.com/invertbox</span>
             <span className="separator">✦</span>
-            <span className="command-option">whatis InvertBox</span>
+            <span className="command-option">InvertBox</span>
           </div>
           
           <div className="balance-display">

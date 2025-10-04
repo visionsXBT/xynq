@@ -103,7 +103,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "The 5K Wall",
       bounty: "2.5 SOL",
        difficulty: "HARD",
-      description: "Post anything about LYNQ (meme, thread, story) and hit 5,000 likes on a single tweet. Forces contestants to go beyond their following, either creating the perfect viral post or shilling nonstop until it catches."
+      description: "Post anything about LYNQ (meme, thread, story) and hit 5,000 likes on a single tweet. "
     },
     {
       id: 13,
@@ -111,7 +111,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "Summon an Influencer",
       bounty: "3 SOL",
        difficulty: "HARD",
-      description: "LYNQ dares players: 'Prove my existence to the giants.' Get a verified account with 1M+ followers to reply to or quote-tweet LYNQ. Requires network clout, DM'ing, campaigning, or sheer luck."
+      description: "LYNQ dares players: 'Prove my existence to the giants.' Get a verified account with 1M+ followers to reply to or quote-tweet LYNQ."
     },
     {
       id: 14,
@@ -119,7 +119,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "The Trending Trial",
       bounty: "3 SOL",
        difficulty: "HARD",
-      description: "Push #LYNQShowtime into the top 10 trending tags in a region. Needs mass player recruitment + timing, like a digital flash mob."
+      description: "Push #LYNQShowtime into the top 10 trending tags in a region."
     },
     {
       id: 15,
@@ -127,7 +127,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "Shill Thread Gauntlet",
       bounty: "2.5 SOL",
        difficulty: "HARD",
-      description: "Write a LYNQ megathread (20 tweets) that passes 10,000 total engagement (likes + retweets + comments) in 48 hours. Content quality + viral mechanics + marketing skill all required."
+      description: "Write a LYNQ megathread (20 tweets) that passes 10,000 total engagement (likes + retweets + comments) in 48 hours."
     },
     {
       id: 16,
@@ -135,7 +135,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "The Million Eyes",
       bounty: "3 SOL",
        difficulty: "HARD",
-      description: "Any single LYNQ-related tweet must reach 1,000,000 views. Brutal reach requirement — only truly viral posts will work."
+      description: "Any single LYNQ-related tweet must reach 1,000,000 views."
     },
     {
       id: 17,
@@ -143,7 +143,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "Recruit the Legion",
       bounty: "2 SOL",
        difficulty: "HARD",
-      description: "Bring 100 unique accounts to tweet about LYNQ in 24 hours, all tagged with #PlayWithLYNQ. Requires building a movement, not just posting."
+      description: "Bring 100 unique accounts to tweet about LYNQ in 24 hours, all tagged with #PlayWithLYNQ."
     },
     {
       id: 18,
@@ -151,7 +151,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "The Crossfire",
       bounty: "3 SOL",
        difficulty: "HARD",
-      description: "Convince 3 different crypto influencers (50k+ followers each) to mention/tag LYNQ in one day. You're basically running PR for LYNQ, live."
+      description: "Convince 3 different crypto influencers (50k+ followers each) to mention/tag LYNQ in one day."
     }
   ];
 
@@ -268,9 +268,9 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
           <div className="command-options">
             <span className="command-option" onClick={onBack}>back to main</span>
             <span className="separator">✦</span>
-            <span className="command-option">curl x.com/invertbox</span>
+            <span className="command-option">x.com/invertbox</span>
             <span className="separator">✦</span>
-            <span className="command-option">whatis InvertBox</span>
+            <span className="command-option">InvertBox</span>
           </div>
           
           <div className="balance-display">

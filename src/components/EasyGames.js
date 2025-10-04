@@ -20,7 +20,7 @@ const EasyGames = ({ onBack, onNavigate, solBalance }) => {
       title: "Meme Arena",
       bounty: "0.3 SOL",
       status: "ACTIVE",
-      description: "LYNQ challenges contestants to make a meme about trading, AI, or Solana. Post it on X with @LYNQ_AI tagged. Medium difficulty — creativity required. Funniest/most viral gets the prize."
+      description: "LYNQ challenges contestants to make a meme about trading, AI, or Solana. Post it on X with @lynqfun tagged. Medium difficulty — creativity required. Funniest/most viral gets the prize."
     },
     {
       id: 3,
@@ -201,9 +201,9 @@ const EasyGames = ({ onBack, onNavigate, solBalance }) => {
             <span className="separator">✦</span>
             <span className="command-option" onClick={() => onNavigate && onNavigate('hard-games')}>hard games</span>
             <span className="separator">✦</span>
-            <span className="command-option">curl x.com/invertbox</span>
+            <span className="command-option">x.com/invertbox</span>
             <span className="separator">✦</span>
-            <span className="command-option">whatis InvertBox</span>
+            <span className="command-option">InvertBox</span>
           </div>
           
           <div className="balance-display">

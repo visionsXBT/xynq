@@ -20,7 +20,7 @@ const HardGames = ({ onBack, onNavigate, solBalance }) => {
       title: "The 5K Wall",
       bounty: "2.5 SOL",
       status: "ACTIVE",
-      description: "Post anything about LYNQ (meme, thread, story) and hit 5,000 likes on a single tweet. Forces contestants to go beyond their following, either creating the perfect viral post or shilling nonstop until it catches."
+      description: "Post anything about LYNQ (meme, thread, story) and hit 5,000 likes on a single tweet. "
     },
     {
       id: 3,
@@ -186,9 +186,9 @@ const HardGames = ({ onBack, onNavigate, solBalance }) => {
             <span className="separator">✦</span>
             <span className="command-option" onClick={() => onNavigate && onNavigate('easy-games')}>easy games</span>
             <span className="separator">✦</span>
-            <span className="command-option">curl x.com/invertbox</span>
+            <span className="command-option">x.com/invertbox</span>
             <span className="separator">✦</span>
-            <span className="command-option">whatis InvertBox</span>
+            <span className="command-option">InvertBox</span>
           </div>
           
           <div className="balance-display">
