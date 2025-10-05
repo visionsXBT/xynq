@@ -108,7 +108,7 @@ const LandingPage = () => {
     "",
     "Welcome, contestant.",
     "LYNQ — the showmaster, trader, and game host — is live.",
-    "Play for SOL, win $LYNQ, and a random holder receives 1$ every 10 minutes + challenges unfold.",
+    "Play for SOL, win $LYNQ, and a random holder receives 10$ every 1 hour + challenges unfold.",
     "The stage is set. The prizes are real. The games are yours.",
     "",
     "lynq@invertbox:~$"
@@ -174,7 +174,7 @@ const LandingPage = () => {
             <div className="control minimize"></div>
             <div className="control maximize"></div>
           </div>
-          <div className="terminal-title">LYNQ</div>
+          <div className="terminal-title">InvertBox</div>
         </div>
         <div className="terminal-body">
           <div className="terminal-content">
