@@ -174,7 +174,9 @@ const LandingPage = () => {
             <div className="control minimize"></div>
             <div className="control maximize"></div>
           </div>
-          <div className="terminal-title">InvertBox</div>
+          <div className="terminal-title">
+            <img src="/typeface-transparent.png" alt="InvertBox" />
+          </div>
         </div>
         <div className="terminal-body">
           <div className="terminal-content">

@@ -63,6 +63,13 @@
   letter-spacing: 0.5px;
 }
 
+/* Logo image size inside terminal title */
+.terminal-title img {
+  height: auto;
+  width: 175px;
+  display: block;
+}
+
 .terminal-body {
   background: #0B0D0E;
   padding: 1.5rem;
