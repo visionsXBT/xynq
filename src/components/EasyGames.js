@@ -60,7 +60,7 @@ const EasyGames = ({ onBack, onNavigate, solBalance }) => {
       title: "Parallel Prediction",
       bounty: "0.3 SOL",
       status: "ACTIVE",
-      description: "Predict SOL's price in exactly 10 minutes. Post predictions publicly on X with @LYNQ_AI. Closest gets the prize."
+      description: "Predict SOL's price in exactly 10 minutes. Post predictions publicly on X with @lynqfun. Closest gets the prize."
     },
     {
       id: 8,
@@ -201,7 +201,7 @@ const EasyGames = ({ onBack, onNavigate, solBalance }) => {
             <span className="separator">✦</span>
             <span className="command-option" onClick={() => onNavigate && onNavigate('hard-games')}>hard games</span>
             <span className="separator">✦</span>
-            <span className="command-option">x.com/invertbox</span>
+            <span className="command-option" onClick={() => window.open('https://x.com/invertbox', '_blank')}>x.com/invertbox</span>
             <span className="separator">✦</span>
             <span className="command-option">InvertBox</span>
           </div>

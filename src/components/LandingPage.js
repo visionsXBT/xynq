@@ -214,7 +214,7 @@ const LandingPage = () => {
           <div className="command-options">
             <span className="command-option" onClick={() => handleNavigation('games')}>games</span>
             <span className="separator">✦</span>
-            <span className="command-option">x.com/invertbox</span>
+            <span className="command-option" onClick={() => window.open('https://x.com/invertbox', '_blank')}>x.com/invertbox</span>
             <span className="separator">✦</span>
             <span className="command-option">InvertBox</span>
           </div>

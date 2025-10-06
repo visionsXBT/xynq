@@ -20,7 +20,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "Meme Arena",
       bounty: "0.3 SOL",
        difficulty: "EASY",
-      description: "LYNQ challenges contestants to make a meme about trading, AI, or Solana. Post it on X with @LYNQ_AI tagged. Medium difficulty — creativity required. Funniest/most viral gets the prize."
+      description: "LYNQ challenges contestants to make a meme about trading, AI, or Solana. Post it on X with @lynqfun tagged. Medium difficulty — creativity required. Funniest/most viral gets the prize."
     },
     {
       id: 3,
@@ -60,7 +60,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "Parallel Prediction",
       bounty: "0.3 SOL",
        difficulty: "EASY",
-      description: "Predict SOL's price in exactly 10 minutes. Post predictions publicly on X with @LYNQ_AI. Closest gets the prize."
+      description: "Predict SOL's price in exactly 10 minutes. Post predictions publicly on X with @lynqfun. Closest gets the prize."
     },
     {
       id: 8,
@@ -268,7 +268,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
           <div className="command-options">
             <span className="command-option" onClick={onBack}>back to main</span>
             <span className="separator">✦</span>
-            <span className="command-option">x.com/invertbox</span>
+            <span className="command-option" onClick={() => window.open('https://x.com/invertbox', '_blank')}>x.com/invertbox</span>
             <span className="separator">✦</span>
             <span className="command-option">InvertBox</span>
           </div>
