@@ -146,7 +146,7 @@ const EasyGames = ({ onBack, onNavigate, solBalance }) => {
                 <div className="how-to-content">
                   <div className="how-to-step">1. Choose an active game from the list below</div>
                   <div className="how-to-step">2. Complete the requirements exactly as specified</div>
-                  <div className="how-to-step">3. Submit your entry via Twitter/X tagging @InvertBox</div>
+                  <div className="how-to-step">3. Submit your entry via sending email to lynq@invertbox.fun</div>
                   <div className="how-to-step">4. First valid submission wins the SOL reward</div>
                   <div className="how-to-step">5. Winners are announced within 24 hours</div>
                 </div>
