@@ -183,7 +183,9 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
             <div className="control minimize"></div>
             <div className="control maximize"></div>
           </div>
-          <div className="terminal-title">LYNQ - ALL GAMES</div>
+          <div className="terminal-title">
+            <img src="/typeface-transparent.png" alt="InvertBox" onClick={() => window.open('https://invertbox.fun', '_blank')} style={{cursor: 'pointer'}} />
+          </div>
         </div>
         
         <div className="terminal-body">
