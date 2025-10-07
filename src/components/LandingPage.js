@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import './LandingPage.css';
 import AllGames from './AllGames';
+import Backrooms from './Backrooms';
 import TypingText from './TypingText';
 import useScreenWidth from '../hooks/useScreenWidth';
 
@@ -164,6 +165,9 @@ const LandingPage = () => {
   if (currentPage === 'games') {
     return <AllGames onBack={handleBackToMain} onNavigate={handleNavigation} solBalance={solBalance} />;
   }
+  if (currentPage === 'backrooms') {
+    return <Backrooms onBack={handleBackToMain} onNavigate={handleNavigation} solBalance={solBalance} />;
+  }
 
   return (
     <div className="terminal-page">
@@ -219,6 +223,8 @@ const LandingPage = () => {
             <span className="command-option" onClick={() => window.open('https://x.com/invertbox', '_blank')}>x.com/invertbox</span>
             <span className="separator">✦</span>
             <span className="command-option" onClick={() => window.open('https://invertbox.fun', '_blank')}>InvertBox</span>
+            <span className="separator">✦</span>
+            <span className="command-option" onClick={() => handleNavigation('backrooms')}>backrooms</span>
           </div>
           
           <div className="balance-display">

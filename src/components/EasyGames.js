@@ -204,6 +204,8 @@ const EasyGames = ({ onBack, onNavigate, solBalance }) => {
             <span className="command-option" onClick={() => window.open('https://x.com/invertbox', '_blank')}>x.com/invertbox</span>
             <span className="separator">✦</span>
             <span className="command-option">InvertBox</span>
+            <span className="separator">✦</span>
+            <span className="command-option" onClick={() => window.open('https://invertbox.fun', '_blank')}>backrooms</span>
           </div>
           
           <div className="balance-display">

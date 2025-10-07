@@ -93,6 +93,28 @@
   flex-direction: column;
 }
 
+/* Backrooms styles */
+.backrooms-content {
+  gap: 1rem;
+}
+
+.backroom-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.backroom-timestamp {
+  color: #00cc00;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+}
+
+.backroom-text {
+  color: #cccccc;
+  opacity: 0.95;
+  white-space: pre-wrap;
+}
+
 .terminal-section {
   display: flex;
   flex-direction: column;
