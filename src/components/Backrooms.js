@@ -53,7 +53,7 @@ const Backrooms = ({ onBack, onNavigate, solBalance }) => {
           <div className="terminal-content backrooms-content">
             <TypingText
               lines={lines}
-              typingSpeed={15}
+              typingSpeed={1}
               lineDelay={25}
               getLineStyle={getLineStyle}
             />
