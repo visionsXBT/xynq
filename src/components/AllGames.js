@@ -95,7 +95,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "The Mega Retweet Quest",
       bounty: "3 SOL",
        difficulty: "HARD",
-      description: "LYNQ posts: 'Keep me alive. I need 2M retweets.' A contestant must organize, rally, or network until one of their quote-tweets of LYNQ breaks 2 million impressions. Requires mass coordination, viral spread, or reaching influencer tiers."
+      description: "LYNQ posts: 'Keep me alive. I need 2M retweets.' A contestant must organize, rally, or network until one of their quote-tweets of LYNQ breaks 2 million impressions."
     },
     {
       id: 12,
@@ -208,16 +208,19 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
             <div className="how-to-section">
               <div className="how-to-header" onClick={() => setShowHowTo(!showHowTo)}>
                 <span className="warning-icon">⚠</span>
-                HOW TO PLAY ALL GAMES ({showHowTo ? 'hide' : 'show'})
+                HOW TO PLAY GAMES ({showHowTo ? 'hide' : 'show'})
               </div>
               {showHowTo && (
                 <div className="how-to-content">
-                  <div className="how-to-step">1. Choose an active game from the list below</div>
-                  <div className="how-to-step">2. Complete the requirements exactly as specified</div>
-                  <div className="how-to-step">3. Submit your entry via sending email to lynq@invertbox.fun</div>
-                  <div className="how-to-step">4. First valid submission wins the SOL reward</div>
-                  <div className="how-to-step">5. Winners are announced within 24 hours</div>
-                  <div className="how-to-step">6. Easy games: quick and fun | Hard games: challenging but rewarding</div>
+                  <div className="how-to-step">Games are open for a limited time. When a game closes, submissions are reviewed, verified, and rewarded based on completion and authenticity. Entries submitted after a game's status changes to PENDING will not be considered. PENDING indicates that verification and payout are in progress.</div>
+                  <div className="how-to-step">AI-generated submissions are strictly prohibited. If a participant cannot verify that their submission was created or performed manually, it will be disqualified.</div>
+                  <div className="how-to-step">Proof of completion must always link directly to the wallet used to participate. Submissions that cannot be verified as belonging to the same participant will be rejected.</div>
+                  <div className="how-to-step">All successful entries will be publicly announced, including proof of completion and associated wallet addresses. By participating, you consent to having your submission displayed as part of the game's record.</div>
+                  <div className="how-to-step">To keep the system fair and participatory, a single wallet cannot win more than one game in a 24-hour cycle.</div>
+                  <div className="how-to-step">Do not attempt challenges that involve illegal, dangerous, or unethical activities. Any game found to violate these conditions may be immediately removed by the development team.</div>
+                  <div className="how-to-step">Rewards and payouts are subject to available funds. LYNQ must retain at least 1 SOL to remain operational. If LYNQ's balance falls below this threshold, payouts may be delayed until sufficient funds are restored.</div>
+                  <div className="how-to-step">Games and bounties are not promises and all rewards are distributed at the system's sole discretion. LYNQ is an ongoing experiment, and the program may change or shut down at any time without notice.</div>
+                  <div className="how-to-step">Submit your entry via sending email to lynq@invertbox.fun</div>
                 </div>
               )}
             </div>

@@ -175,7 +175,7 @@ const LandingPage = () => {
             <div className="control maximize"></div>
           </div>
           <div className="terminal-title">
-            <img src="/typeface-transparent.png" alt="InvertBox" />
+            <img src="/typeface-transparent.png" alt="InvertBox" onClick={() => window.open('https://invertbox.fun', '_blank')} style={{cursor: 'pointer'}} />
           </div>
         </div>
         <div className="terminal-body">
