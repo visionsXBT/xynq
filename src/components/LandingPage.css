@@ -110,9 +110,15 @@
 }
 
 .backroom-text {
-  color: #cccccc;
+  color: #ffffff;
   opacity: 0.95;
   white-space: pre-wrap;
+}
+
+.backroom-divider {
+  border-top: 0.5px solid #666666;
+  margin: 0.5rem 0;
+  opacity: 0.6;
 }
 
 .terminal-section {
