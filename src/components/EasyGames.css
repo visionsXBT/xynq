@@ -196,9 +196,9 @@
   overflow-y: auto;
   overflow-x: hidden;
   background: rgba(255, 255, 255, 0.02);
-  /* Adjusted height to account for how-to-section */
-  max-height: calc(60vh - 500px);
-  min-height: 500px;
+  /* Responsive height calculation */
+  max-height: calc(100vh - 300px);
+  min-height: 400px;
 }
 
 .bounty-header {
@@ -330,9 +330,11 @@
   .bounty-board {
     border: none;
     background: transparent;
-    /* Adjust height for mobile with how-to-section */
-    max-height: calc(50vh - 500px);
-    min-height: 500px;
+    /* Mobile-optimized height calculation */
+    max-height: calc(100vh - 200px);
+    min-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   
   .bounty-header {
@@ -474,6 +476,37 @@
     margin-bottom: 0.75rem;
     line-height: 1.4;
   }
+  
+  .terminal-title {
+    font-size: 0.8rem;
+  }
+  
+  .terminal-title.prompt {
+    font-size: 1.1rem;
+  }
+  
+  .terminal-title img {
+    width: 140px;
+  }
+  
+  .command-options {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 0.3rem !important;
+    justify-content: center !important;
+    display: flex !important;
+  }
+  
+  .command-option {
+    font-size: 12px;
+    padding: 0.4rem 0.6rem;
+    flex: 0 0 auto;
+    min-width: fit-content;
+  }
+  
+  .balance-display {
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -483,9 +516,11 @@
   }
   
   .bounty-board {
-    /* Further adjust height for small mobile screens */
-    max-height: calc(40vh - 150px);
-    min-height: 150px;
+    /* Small mobile screens - adjusted height */
+    max-height: calc(100vh - 150px);
+    min-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
   
   .rules-update-box {
@@ -524,92 +559,6 @@
     padding: 0.25rem 0;
     margin-bottom: 0.5rem;
     line-height: 1.3;
-  }
-  
-  .bounty-cell {
-    padding: 0.5rem 0.25rem;
-    font-size: 11px;
-  }
-  
-  .bounty-cell.deadline {
-    font-size: 10px;
-  }
-  
-  .bounty-cell.bounty {
-    font-size: 12px;
-  }
-  
-  .bounty-title {
-    font-size: 12px;
-    margin-bottom: 0.25rem;
-  }
-  
-  .bounty-description {
-    font-size: 10px;
-    line-height: 1.2;
-  }
-  
-  .difficulty-badge,
-  .status-badge {
-    font-size: 8px;
-    padding: 0.1rem 0.25rem;
-  }
-  
-  .filter-tab {
-    font-size: 10px;
-    padding: 0.4rem 0.5rem;
-    min-width: 60px;
-  }
-  
-  .terminal-bottom-fixed {
-    padding: 0.75rem;
-  }
-  
-  .command-options {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .command-option {
-    font-size: 11px;
-  }
-  
-  .balance-display {
-    font-size: 11px;
-  }
-}
-
-/* Extra small mobile screens */
-@media (max-width: 360px) {
-  .terminal-body {
-    padding: 0.25rem;
-  }
-  
-  .bounty-board {
-    max-height: calc(35vh - 100px);
-    min-height: 100px;
-  }
-  
-  .how-to-section {
-    margin: 0.25rem 0;
-    border-radius: 4px;
-  }
-  
-  .how-to-header {
-    padding: 0.25rem;
-    font-size: 11px;
-    border-radius: 4px 4px 0 0;
-  }
-  
-  .how-to-content {
-    padding: 0.25rem;
-    border-radius: 0 0 4px 4px;
-  }
-  
-  .how-to-step {
-    font-size: 10px;
-    margin-bottom: 0.25rem;
-    line-height: 1.2;
   }
   
   .bounty-row {
@@ -656,32 +605,108 @@
   .status-badge {
     font-size: 10px;
     padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .filter-tabs {
+    flex-wrap: wrap;
+    gap: 0.2rem;
   }
   
   .filter-tab {
-    font-size: 9px;
-    padding: 0.3rem 0.4rem;
-    min-width: 50px;
+    font-size: 10px;
+    padding: 0.4rem 0.5rem;
+    min-width: 60px;
+  }
+  
+  .terminal-bottom-fixed {
+    padding: 0.75rem;
+  }
+  
+  .terminal-title {
+    font-size: 0.7rem;
+  }
+  
+  .terminal-title.prompt {
+    font-size: 0.9rem;
+  }
+  
+  .terminal-title img {
+    width: 120px;
+  }
+  
+  .command-options {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 0.25rem !important;
+    justify-content: center !important;
+    display: flex !important;
   }
   
   .command-option {
-    font-size: 10px;
+    font-size: 11px;
+    padding: 0.3rem 0.5rem;
+    flex: 0 0 auto;
+    min-width: fit-content;
   }
   
   .balance-display {
-    font-size: 10px;
+    font-size: 11px;
   }
 }
 
-/* Extra small mobile screens */
+/* Extra small mobile screens - Consolidated */
 @media (max-width: 360px) {
   .terminal-body {
     padding: 0.25rem;
   }
   
   .bounty-board {
-    max-height: calc(35vh - 100px);
-    min-height: 100px;
+    /* Extra small mobile screens - compact height */
+    max-height: calc(100vh - 120px);
+    min-height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  .rules-update-box {
+    padding: 0.25rem;
+    font-size: 10px;
+    margin: 0.25rem 0;
+  }
+  
+  .rules-title {
+    font-size: 12px;
+  }
+  
+  .rules-text {
+    font-size: 9px;
+    line-height: 1.2;
+  }
+  
+  .how-to-section {
+    margin: 0.25rem 0;
+    border-radius: 4px;
+  }
+  
+  .how-to-header {
+    padding: 0.25rem;
+    font-size: 11px;
+    border-radius: 4px 4px 0 0;
+  }
+  
+  .how-to-content {
+    padding: 0.25rem;
+    border-radius: 0 0 4px 4px;
+  }
+  
+  .how-to-step {
+    font-size: 10px;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
   }
   
   .bounty-row {
@@ -736,8 +761,36 @@
     min-width: 50px;
   }
   
+  .terminal-bottom-fixed {
+    padding: 0.5rem;
+    justify-content: center !important;
+  }
+  
+  .terminal-title {
+    font-size: 0.6rem;
+  }
+  
+  .terminal-title.prompt {
+    font-size: 0.8rem;
+  }
+  
+  .terminal-title img {
+    width: 100px;
+  }
+  
+  .command-options {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 0.2rem !important;
+    justify-content: center !important;
+    display: flex !important;
+  }
+  
   .command-option {
     font-size: 10px;
+    padding: 0.25rem 0.4rem;
+    flex: 0 0 auto;
+    min-width: fit-content;
   }
   
   .balance-display {

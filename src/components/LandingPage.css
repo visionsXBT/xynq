@@ -389,6 +389,18 @@ html, body {
     padding: 0.75rem;
   }
   
+  .terminal-title {
+    font-size: 0.8rem;
+  }
+  
+  .terminal-title.prompt {
+    font-size: 1.1rem;
+  }
+  
+  .terminal-title img {
+    width: 140px;
+  }
+  
   .terminal-body {
     padding: 0.75rem;
     min-height: 400px;
@@ -453,6 +465,18 @@ html, body {
     padding: 0.5rem;
   }
   
+  .terminal-title {
+    font-size: 0.7rem;
+  }
+  
+  .terminal-title.prompt {
+    font-size: 0.9rem;
+  }
+  
+  .terminal-title img {
+    width: 120px;
+  }
+  
   .terminal-line.ascii {
     font-size: 8px;
     line-height: 1.0;
@@ -462,8 +486,10 @@ html, body {
   }
   
   .command-options {
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction: row;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   
   .command-option {
@@ -504,11 +530,30 @@ html, body {
     padding: 0.25rem;
   }
   
+  .terminal-title {
+    font-size: 0.6rem;
+  }
+  
+  .terminal-title.prompt {
+    font-size: 0.8rem;
+  }
+  
+  .terminal-title img {
+    width: 100px;
+  }
+  
   .terminal-line.ascii {
     font-size: 6px;
     line-height: 0.9;
     transform: scale(0.5);
     transform-origin: left top;
+  }
+  
+  .command-options {
+    flex-direction: row;
+    gap: 0.2rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
   
   .command-option {
