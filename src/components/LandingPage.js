@@ -84,7 +84,7 @@ const LandingPage = () => {
       "#                                                                     #",
       "#                             .-^-.                                   #",
       "#                            ( ✦‿✦)                                  #",
-      "#                            / >⌬< \\                                  #",
+      "#                            / >⌬< \\                                 #",
       "#                            |______|                                 #",
       "#                                                                     #",
       "#   		██      ██    ██ ██     ██     ██████                 #",
@@ -173,10 +173,13 @@ const LandingPage = () => {
     <div className="terminal-page">
       <div className="terminal-window">
         <div className="terminal-header">
-          <div className="terminal-controls">
-            <div className="control close"></div>
+          {/* <div className="terminal-controls">
+            <div className="control close" onClick={onBack}></div>
             <div className="control minimize"></div>
             <div className="control maximize"></div>
+          </div> */}
+          <div className="terminal-title prompt">
+            &gt;_&nbsp;&nbsp;lynq_terminal.exe
           </div>
           <div className="terminal-title">
             <img src="/typeface-transparent.png" alt="InvertBox" onClick={() => window.open('https://invertbox.fun', '_blank')} style={{cursor: 'pointer'}} />
@@ -219,11 +222,11 @@ const LandingPage = () => {
         <div className="terminal-bottom-fixed">
           <div className="command-options">
             <span className="command-option" onClick={() => handleNavigation('games')}>games</span>
-            <span className="separator">✦</span>
+            {/* <span className="separator">✦</span> */}
             <span className="command-option" onClick={() => window.open('https://x.com/invertbox', '_blank')}>x.com/invertbox</span>
-            <span className="separator">✦</span>
+            {/* <span className="separator">✦</span> */}
             <span className="command-option" onClick={() => window.open('https://invertbox.fun', '_blank')}>InvertBox</span>
-            <span className="separator">✦</span>
+            {/* <span className="separator">✦</span> */}
             <span className="command-option" onClick={() => handleNavigation('backrooms')}>backrooms</span>
           </div>
           

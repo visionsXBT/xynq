@@ -27,11 +27,14 @@ const Backrooms = ({ onBack, onNavigate, solBalance }) => {
   return (
     <div className="terminal-page">
       <div className="terminal-window">
-        <div className="terminal-header">
-          <div className="terminal-controls">
+      <div className="terminal-header">
+          {/* <div className="terminal-controls">
             <div className="control close" onClick={onBack}></div>
             <div className="control minimize"></div>
             <div className="control maximize"></div>
+          </div> */}
+          <div className="terminal-title prompt">
+            &gt;_&nbsp;&nbsp;lynq_terminal.exe
           </div>
           <div className="terminal-title">
             <img src="/typeface-transparent.png" alt="InvertBox" onClick={() => window.open('https://invertbox.fun', '_blank')} style={{cursor: 'pointer'}} />
@@ -63,13 +66,13 @@ const Backrooms = ({ onBack, onNavigate, solBalance }) => {
             {onNavigate ? (
               <>
                 <span className="command-option" onClick={() => onNavigate('games')}>games</span>
-                <span className="separator">✦</span>
+                {/* <span className="separator">✦</span> */}
               </>
             ) : null}
             <span className="command-option" onClick={() => window.open('https://x.com/invertbox', '_blank')}>x.com/invertbox</span>
-            <span className="separator">✦</span>
+            {/* <span className="separator">✦</span> */}
             <span className="command-option" onClick={() => window.open('https://invertbox.fun', '_blank')}>InvertBox</span>
-            <span className="separator">✦</span>
+            {/* <span className="separator">✦</span> */}
             <span className="command-option" onClick={onBack}>back to main</span>
           </div>
 

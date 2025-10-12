@@ -1,4 +1,8 @@
 /* Terminal Page Styles */
+html, body {
+  overflow-x: hidden;
+}
+
 .terminal-page {
   min-height: 100vh;
   background: #0B0D0E;
@@ -12,23 +16,26 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  overflow-x: hidden;
 }
 
 .terminal-window {
   width: 100%;
   max-width: 1400px;
-  background: #0B0D0E;
+  background: #000000;
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  min-height: 80vh;
+  max-height: 90vh;
 }
 
 .terminal-header {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.05);
   padding: 1rem 1.5rem;
   display: flex;
   align-items: center;
@@ -67,6 +74,13 @@
   letter-spacing: 0.5px;
 }
 
+.terminal-title.prompt {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
 /* Logo image size inside terminal title */
 .terminal-title img {
   height: auto;
@@ -75,12 +89,15 @@
 }
 
 .terminal-body {
-  background: #0B0D0E;
+  background: #000000;
   padding: 1.5rem;
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  max-height: calc(90vh - 120px);
 }
 
 .terminal-content {
@@ -91,6 +108,9 @@
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
+  flex: 1;
+  min-height: 0;
 }
 
 /* Backrooms styles */
@@ -179,7 +199,7 @@
   color: #00cc00;
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
   white-space: pre;
-  overflow-x: auto;
+  overflow-x: hidden;
   font-size: inherit;
   transform-origin: left top;
   word-break: keep-all;
@@ -187,7 +207,7 @@
 
 /* ASCII Art Container for better responsive handling */
 .ascii-art-container {
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: visible;
   width: 100%;
   margin: 0;
@@ -279,7 +299,7 @@
 
 /* Fixed Bottom Section Styles */
 .terminal-bottom-fixed {
-  background: #0B0D0E;
+  background: #000000;
   padding: 1.5rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
@@ -304,10 +324,15 @@
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
   font-size: 14px;
   transition: color 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .command-option:hover {
   color: #00cc00;
+  border-color: #00cc00;
 }
 
 .separator {
@@ -383,6 +408,7 @@
   
   .command-option {
     font-size: 12px;
+    padding: 0.2rem 0.4rem;
   }
   
   .separator {
@@ -423,6 +449,7 @@
   
   .command-option {
     font-size: 11px;
+    padding: 0.15rem 0.3rem;
   }
   
   .balance-display {
