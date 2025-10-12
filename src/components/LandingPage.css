@@ -375,26 +375,33 @@ html, body {
 
 @media (max-width: 768px) {
   .terminal-page {
-    padding: 1rem;
+    padding: 0.5rem;
   }
   
   .terminal-window {
     max-width: 100%;
+    margin: 0;
+    min-height: 75vh;
+    max-height: 90vh;
+  }
+  
+  .terminal-header {
+    padding: 0.75rem;
   }
   
   .terminal-body {
-    padding: 1rem;
-    min-height: 500px;
+    padding: 0.75rem;
+    min-height: 400px;
   }
   
   .terminal-content {
-    font-size: 14px;
+    font-size: 13px;
   }
   
   .terminal-line.ascii {
-    font-size: 12px;
-    line-height: 1.1;
-    transform: scale(0.8);
+    font-size: 10px;
+    line-height: 1.0;
+    transform: scale(0.7);
     transform-origin: left top;
   }
   
@@ -404,38 +411,50 @@ html, body {
   
   .command-options {
     gap: 0.25rem;
+    flex-wrap: wrap;
   }
   
   .command-option {
-    font-size: 12px;
-    padding: 0.2rem 0.4rem;
+    font-size: 11px;
+    padding: 0.3rem 0.5rem;
+    flex: 1;
+    min-width: 120px;
   }
   
   .separator {
-    font-size: 10px;
+    font-size: 9px;
   }
   
   .balance-display {
-    font-size: 12px;
+    font-size: 11px;
   }
 }
 
 @media (max-width: 480px) {
+  .terminal-page {
+    padding: 0.25rem;
+  }
+  
+  .terminal-window {
+    min-height: 70vh;
+    max-height: 95vh;
+  }
+  
   .terminal-content {
-    font-size: 13px;
+    font-size: 12px;
   }
   
   .terminal-body {
-    padding: 0.75rem;
-    min-height: 400px;
+    padding: 0.5rem;
+    min-height: 300px;
   }
   
   .terminal-header {
-    padding: 0.75rem 1rem;
+    padding: 0.5rem;
   }
   
   .terminal-line.ascii {
-    font-size: 10px;
+    font-size: 8px;
     line-height: 1.0;
     transform: scale(0.6);
     transform-origin: left top;
@@ -448,15 +467,60 @@ html, body {
   }
   
   .command-option {
-    font-size: 11px;
-    padding: 0.15rem 0.3rem;
+    font-size: 10px;
+    padding: 0.4rem 0.5rem;
   }
   
   .balance-display {
-    font-size: 11px;
+    font-size: 10px;
   }
   
   .copyright {
-    font-size: 10px;
+    font-size: 9px;
+  }
+}
+
+/* Extra small mobile screens */
+@media (max-width: 360px) {
+  .terminal-page {
+    padding: 0.1rem;
+  }
+  
+  .terminal-window {
+    min-height: 65vh;
+    max-height: 98vh;
+  }
+  
+  .terminal-content {
+    font-size: 11px;
+  }
+  
+  .terminal-body {
+    padding: 0.25rem;
+    min-height: 250px;
+  }
+  
+  .terminal-header {
+    padding: 0.25rem;
+  }
+  
+  .terminal-line.ascii {
+    font-size: 6px;
+    line-height: 0.9;
+    transform: scale(0.5);
+    transform-origin: left top;
+  }
+  
+  .command-option {
+    font-size: 9px;
+    padding: 0.3rem 0.4rem;
+  }
+  
+  .balance-display {
+    font-size: 9px;
+  }
+  
+  .copyright {
+    font-size: 8px;
   }
 }

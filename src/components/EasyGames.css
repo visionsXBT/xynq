@@ -331,8 +331,8 @@
     border: none;
     background: transparent;
     /* Adjust height for mobile with how-to-section */
-    max-height: calc(50vh - 150px);
-    min-height: 150px;
+    max-height: calc(50vh - 500px);
+    min-height: 500px;
   }
   
   .bounty-header {
@@ -340,14 +340,15 @@
   }
   
   .bounty-row {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    padding: 1rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    margin-bottom: 1.25rem;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
   
   .bounty-cell {
@@ -355,62 +356,84 @@
     padding: 0;
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
   }
   
   .bounty-cell.deadline::before {
-    content: "DEADLINE: ";
+    content: "📅 DEADLINE";
     font-weight: bold;
     color: #00cc00;
-    font-size: 11px;
-    margin-bottom: 0.25rem;
+    font-size: 12px;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   
   .bounty-cell.title::before {
-    content: "GAME: ";
+    content: "🎮 GAME";
     font-weight: bold;
     color: #00cc00;
-    font-size: 11px;
-    margin-bottom: 0.25rem;
+    font-size: 12px;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   
   .bounty-cell.bounty::before {
-    content: "REWARD: ";
+    content: "💰 REWARD";
     font-weight: bold;
     color: #00cc00;
-    font-size: 11px;
-    margin-bottom: 0.25rem;
+    font-size: 12px;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   
   .bounty-cell.difficulty::before {
-    content: "DIFFICULTY: ";
+    content: "⚡ DIFFICULTY";
     font-weight: bold;
     color: #00cc00;
-    font-size: 11px;
-    margin-bottom: 0.25rem;
+    font-size: 12px;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   
   .bounty-cell.deadline {
-    font-size: 12px;
+    font-size: 13px;
+    color: #cccccc;
+    font-weight: 500;
   }
   
   .bounty-cell.bounty {
-    font-size: 14px;
+    font-size: 16px;
+    color: #00cc00;
+    font-weight: bold;
   }
   
   .bounty-title {
-    font-size: 14px;
-    margin-bottom: 0.25rem;
+    font-size: 16px;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    font-weight: bold;
+    line-height: 1.3;
   }
   
   .bounty-description {
-    font-size: 12px;
-    line-height: 1.3;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #cccccc;
+    margin-top: 0.25rem;
   }
   
   .difficulty-badge,
   .status-badge {
-    font-size: 10px;
-    padding: 0.2rem 0.4rem;
+    font-size: 11px;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
   
   .filter-tabs {
@@ -424,52 +447,257 @@
     flex: 1;
     min-width: 80px;
   }
+  
+  /* Mobile how-to-section improvements */
+  .how-to-section {
+    margin: 0.75rem 0;
+    border-radius: 8px;
+  }
+  
+  .how-to-header {
+    padding: 0.75rem;
+    font-size: 13px;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .how-to-content {
+    padding: 0.75rem;
+    border-radius: 0 0 8px 8px;
+  }
+  
+  .how-to-step {
+    font-size: 12px;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+  }
 }
 
 @media (max-width: 480px) {
   .terminal-body {
-    padding: 0.75rem;
+    padding: 0.5rem;
     min-height: 0;
   }
   
   .bounty-board {
     /* Further adjust height for small mobile screens */
-    max-height: calc(45vh - 120px);
-    min-height: 120px;
+    max-height: calc(40vh - 150px);
+    min-height: 150px;
   }
   
   .rules-update-box {
-    padding: 0.75rem;
-    font-size: 12px;
-    margin: 0.75rem 0;
+    padding: 0.5rem;
+    font-size: 11px;
+    margin: 0.5rem 0;
   }
   
   .rules-title {
-    font-size: 14px;
+    font-size: 13px;
   }
   
   .rules-text {
-    font-size: 11px;
+    font-size: 10px;
     line-height: 1.3;
+  }
+  
+  .how-to-section {
+    margin: 0.5rem 0;
+    border-radius: 6px;
   }
   
   .how-to-header {
     padding: 0.5rem;
     font-size: 12px;
+    border-radius: 6px 6px 0 0;
   }
   
   .how-to-content {
-    padding: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0 0 6px 6px;
   }
   
   .how-to-step {
     font-size: 11px;
     padding: 0.25rem 0;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
   }
   
   .bounty-cell {
-    padding: 0.75rem 0.5rem;
+    padding: 0.5rem 0.25rem;
+    font-size: 11px;
+  }
+  
+  .bounty-cell.deadline {
+    font-size: 10px;
+  }
+  
+  .bounty-cell.bounty {
     font-size: 12px;
+  }
+  
+  .bounty-title {
+    font-size: 12px;
+    margin-bottom: 0.25rem;
+  }
+  
+  .bounty-description {
+    font-size: 10px;
+    line-height: 1.2;
+  }
+  
+  .difficulty-badge,
+  .status-badge {
+    font-size: 8px;
+    padding: 0.1rem 0.25rem;
+  }
+  
+  .filter-tab {
+    font-size: 10px;
+    padding: 0.4rem 0.5rem;
+    min-width: 60px;
+  }
+  
+  .terminal-bottom-fixed {
+    padding: 0.75rem;
+  }
+  
+  .command-options {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .command-option {
+    font-size: 11px;
+  }
+  
+  .balance-display {
+    font-size: 11px;
+  }
+}
+
+/* Extra small mobile screens */
+@media (max-width: 360px) {
+  .terminal-body {
+    padding: 0.25rem;
+  }
+  
+  .bounty-board {
+    max-height: calc(35vh - 100px);
+    min-height: 100px;
+  }
+  
+  .how-to-section {
+    margin: 0.25rem 0;
+    border-radius: 4px;
+  }
+  
+  .how-to-header {
+    padding: 0.25rem;
+    font-size: 11px;
+    border-radius: 4px 4px 0 0;
+  }
+  
+  .how-to-content {
+    padding: 0.25rem;
+    border-radius: 0 0 4px 4px;
+  }
+  
+  .how-to-step {
+    font-size: 10px;
+    margin-bottom: 0.25rem;
+    line-height: 1.2;
+  }
+  
+  .bounty-row {
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    gap: 0.75rem;
+  }
+  
+  .bounty-cell {
+    padding: 0;
+    font-size: 12px;
+    gap: 0.4rem;
+  }
+  
+  .bounty-cell.deadline::before,
+  .bounty-cell.title::before,
+  .bounty-cell.bounty::before,
+  .bounty-cell.difficulty::before {
+    font-size: 11px;
+    margin-bottom: 0.4rem;
+  }
+  
+  .bounty-cell.deadline {
+    font-size: 12px;
+  }
+  
+  .bounty-cell.bounty {
+    font-size: 14px;
+  }
+  
+  .bounty-title {
+    font-size: 14px;
+    margin-bottom: 0.4rem;
+  }
+  
+  .bounty-description {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  
+  .difficulty-badge,
+  .status-badge {
+    font-size: 10px;
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .filter-tab {
+    font-size: 9px;
+    padding: 0.3rem 0.4rem;
+    min-width: 50px;
+  }
+  
+  .command-option {
+    font-size: 10px;
+  }
+  
+  .balance-display {
+    font-size: 10px;
+  }
+}
+
+/* Extra small mobile screens */
+@media (max-width: 360px) {
+  .terminal-body {
+    padding: 0.25rem;
+  }
+  
+  .bounty-board {
+    max-height: calc(35vh - 100px);
+    min-height: 100px;
+  }
+  
+  .bounty-row {
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    gap: 0.5rem;
+  }
+  
+  .bounty-cell {
+    padding: 0;
+    font-size: 11px;
+    gap: 0.3rem;
+  }
+  
+  .bounty-cell.deadline::before,
+  .bounty-cell.title::before,
+  .bounty-cell.bounty::before,
+  .bounty-cell.difficulty::before {
+    font-size: 10px;
+    margin-bottom: 0.3rem;
   }
   
   .bounty-cell.deadline {
@@ -482,40 +710,31 @@
   
   .bounty-title {
     font-size: 13px;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
   }
   
   .bounty-description {
     font-size: 11px;
-    line-height: 1.2;
+    line-height: 1.3;
   }
   
   .difficulty-badge,
   .status-badge {
     font-size: 9px;
-    padding: 0.15rem 0.3rem;
+    padding: 0.2rem 0.4rem;
   }
   
   .filter-tab {
-    font-size: 11px;
-    padding: 0.4rem 0.5rem;
-    min-width: 70px;
-  }
-  
-  .terminal-bottom-fixed {
-    padding: 1rem;
-  }
-  
-  .command-options {
-    flex-direction: column;
-    gap: 0.5rem;
+    font-size: 9px;
+    padding: 0.3rem 0.4rem;
+    min-width: 50px;
   }
   
   .command-option {
-    font-size: 12px;
+    font-size: 10px;
   }
   
   .balance-display {
-    font-size: 12px;
+    font-size: 10px;
   }
 }
