@@ -91,24 +91,29 @@
   font-size: 13px;
 }
 
-.how-to-section {
-  margin: 1rem 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  overflow: hidden;
-}
 
 .how-to-header {
   background: rgba(255, 255, 255, 0.1);
-  padding: 0.75rem 1rem;
-  cursor: pointer;
+  padding: 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
   font-size: 14px;
   color: #ffffff;
-  transition: background-color 0.2s ease;
+  /* Always visible - fixed position */
+  min-height: 48px;
+  /* Rounded top corners to match section */
+  border-radius: 12px 12px 0 0;
+}
+
+.how-to-box {
+  color: #00cc00;
+  margin: 1rem 0;
+  border-radius: 12px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 .how-to-header:hover {
@@ -120,11 +125,27 @@
   font-size: 16px;
 }
 
+.how-to-section {
+  background: rgba(255, 255, 255, 0.1);
+  color: #00cc00;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 12px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
 .how-to-content {
   background: rgba(255, 255, 255, 0.05);
   padding: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  /* Always visible - no transitions needed */
+  /* Rounded bottom corners to match section */
+  border-radius: 0 0 12px 12px;
 }
+
+
 
 .how-to-step {
   margin-bottom: 0.5rem;
@@ -175,7 +196,9 @@
   overflow-y: auto;
   overflow-x: hidden;
   background: rgba(255, 255, 255, 0.02);
-  max-height: 60vh;
+  /* Adjusted height to account for how-to-section */
+  max-height: calc(60vh - 500px);
+  min-height: 500px;
 }
 
 .bounty-header {
@@ -307,6 +330,9 @@
   .bounty-board {
     border: none;
     background: transparent;
+    /* Adjust height for mobile with how-to-section */
+    max-height: calc(50vh - 150px);
+    min-height: 150px;
   }
   
   .bounty-header {
@@ -404,6 +430,12 @@
   .terminal-body {
     padding: 0.75rem;
     min-height: 0;
+  }
+  
+  .bounty-board {
+    /* Further adjust height for small mobile screens */
+    max-height: calc(45vh - 120px);
+    min-height: 120px;
   }
   
   .rules-update-box {
