@@ -360,7 +360,8 @@
   }
   
   .bounty-cell.deadline::before {
-    content: "📅 DEADLINE";
+    content: "DEADLINE";
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
     font-weight: bold;
     color: #00cc00;
     font-size: 12px;
@@ -370,7 +371,8 @@
   }
   
   .bounty-cell.title::before {
-    content: "🎮 GAME";
+    content: "GAME";
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
     font-weight: bold;
     color: #00cc00;
     font-size: 12px;
@@ -380,7 +382,8 @@
   }
   
   .bounty-cell.bounty::before {
-    content: "💰 REWARD";
+    content: "REWARD";
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
     font-weight: bold;
     color: #00cc00;
     font-size: 12px;
@@ -390,7 +393,8 @@
   }
   
   .bounty-cell.difficulty::before {
-    content: "⚡ DIFFICULTY";
+    content: "DIFFICULTY";
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
     font-weight: bold;
     color: #00cc00;
     font-size: 12px;
@@ -625,6 +629,7 @@
   .bounty-cell.title::before,
   .bounty-cell.bounty::before,
   .bounty-cell.difficulty::before {
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
     font-size: 11px;
     margin-bottom: 0.4rem;
   }
@@ -696,6 +701,7 @@
   .bounty-cell.title::before,
   .bounty-cell.bounty::before,
   .bounty-cell.difficulty::before {
+    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
     font-size: 10px;
     margin-bottom: 0.3rem;
   }
