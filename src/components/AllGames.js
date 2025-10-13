@@ -408,6 +408,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
                 <div className="how-to-step">Do not attempt challenges that involve illegal, dangerous, or unethical activities. Any game found to violate these conditions may be immediately removed by the development team.</div>
                 <div className="how-to-step">Rewards and payouts are subject to available funds. LYNQ must retain at least 1 SOL to remain operational. If LYNQ's balance falls below this threshold, payouts may be delayed until sufficient funds are restored.</div>
                 <div className="how-to-step">Games and bounties are not promises and all rewards are distributed at the system's sole discretion. LYNQ is an ongoing experiment, and the program may change or shut down at any time without notice.</div>
+                <div className="how-to-step">All game time and deadlines are set in GMT +0(London Time).</div>
                 <div className="how-to-step">Submit your entry via sending email to lynq@invertbox.fun</div>
               </div>
             </div>
