@@ -13,22 +13,49 @@
   position: relative;
 }
 
+.terminal-page .terminal-body {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  flex: 1 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  min-height: 0 !important;
+  max-height: calc(90vh - 120px) !important;
+  scroll-behavior: smooth;
+  position: relative;
+  transition: scrollbar-color 0.3s ease;
+}
+
+.terminal-page .terminal-body:hover {
+  scrollbar-color: #00cc00 rgba(0, 204, 0, 0.1);
+}
+
 .terminal-page .terminal-body::-webkit-scrollbar {
   width: 8px;
 }
 
 .terminal-page .terminal-body::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.3);
+  background: transparent;
   border-radius: 4px;
   margin: 8px 0;
+  transition: background 0.3s ease;
+}
+
+.terminal-page .terminal-body:hover::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .terminal-page .terminal-body::-webkit-scrollbar-thumb {
-  background: rgba(0, 204, 0, 0.4);
+  background: transparent;
   border-radius: 4px;
-  border: 1px solid rgba(0, 204, 0, 0.2);
+  border: 1px solid transparent;
   transition: all 0.3s ease;
   min-height: 20px;
+}
+
+.terminal-page .terminal-body:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 204, 0, 0.4);
+  border-color: rgba(0, 204, 0, 0.2);
 }
 
 .terminal-page .terminal-body::-webkit-scrollbar-thumb:hover {
@@ -43,8 +70,16 @@
 }
 
 /* Custom scrollbar for bounty-board */
+/* Custom scrollbar for bounty-board with fade out effect */
 .bounty-board {
+  overflow-y: auto;
   scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  -ms-overflow-style: auto;
+  transition: scrollbar-color 0.3s ease;
+}
+
+.bounty-board:hover {
   scrollbar-color: #00cc00 rgba(0, 204, 0, 0.1);
 }
 
@@ -53,15 +88,27 @@
 }
 
 .bounty-board::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
+  background: transparent;
+  border-radius: 4px;
+  margin: 8px 0;
+  transition: background 0.3s ease;
+}
+
+.bounty-board:hover::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .bounty-board::-webkit-scrollbar-thumb {
-  background: rgba(0, 204, 0, 0.3);
+  background: transparent;
   border-radius: 3px;
-  border: 1px solid rgba(0, 204, 0, 0.1);
+  border: 1px solid transparent;
   transition: all 0.3s ease;
+  min-height: 20px;
+}
+
+.bounty-board:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 204, 0, 0.3);
+  border-color: rgba(0, 204, 0, 0.1);
 }
 
 .bounty-board::-webkit-scrollbar-thumb:hover {

@@ -44,8 +44,9 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "Hashtag Hunt",
       bounty: "0.25 SOL",
       difficulty: "EASY",
+      status: "COMPLETED",
       description: "LYNQ posts a riddle that hints at a word. First to tweet the answer with #PlayWithLYNQ wins. Spreads the tag across X.",
-      case: "EXPIRED"
+      
     },
     {
       id: 2,
@@ -141,7 +142,8 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "Quote Relay",
       bounty: "0.12 SOL",
       difficulty: "EASY",
-      description: "LYNQ will drop a philosophical quote about reality, choice, or systems at 6:00 PM. The first 10 people to quote-tweet it with their own unique interpretation (minimum 50 characters) AND include #LYNQ will be entered into a randomized drawing. Your interpretation must add value—no generic responses like 'so true' or 'deep.' Winner selected via provably random method within 1 hour. Must quote-tweet the original LYNQ post, not reply."
+      description: "LYNQ will drop a philosophical quote about reality, choice, or systems at 6:00 PM. The first 10 people to quote-tweet it with their own unique interpretation (minimum 50 characters) AND include #LYNQ will be entered into a randomized drawing. Your interpretation must add value—no generic responses like 'so true' or 'deep.' Winner selected via provably random method within 1 hour. Must quote-tweet the original LYNQ post, not reply.",
+      status: "COMPLETED",
     },
     {
       id: 22,
@@ -173,7 +175,8 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "Phrase Match",
       bounty: "0.2 SOL",
       difficulty: "EASY",
-      description: "At exactly 7:00 PM, LYNQ will post a specific phrase—could be a quote, a question, or a cryptic statement. Your job: tweet that EXACT phrase word-for-word (punctuation included) with #LYNQ and tag exactly 2 friends. First person to do it correctly wins instantly. Copy-paste is your friend, but double-check for typos. Must be posted as a new tweet, not a reply or quote tweet. The tagged friends must be real accounts. LYNQ will verify and announce winner within minutes."
+      description: "At exactly 7:00 PM, LYNQ will post a specific phrase—could be a quote, a question, or a cryptic statement. Your job: tweet that EXACT phrase word-for-word (punctuation included) with #LYNQ and tag exactly 2 friends. First person to do it correctly wins instantly. Copy-paste is your friend, but double-check for typos. Must be posted as a new tweet, not a reply or quote tweet. The tagged friends must be real accounts. LYNQ will verify and announce winner within minutes.",
+      status: "PENDING",
     },
     {
       id: 26,
@@ -485,6 +488,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       bounty: "1.5 SOL",
       difficulty: "HARD",
       description: "Post LYNQ content on X, Reddit, Discord, and TikTok/Instagram. Must show proof of posting + engagement on all 4. Highest total reach wins."
+    
     }
   ];
 
@@ -493,6 +497,12 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
 
   // Function to check if a bounty is expired based on deadline
   const checkBountyStatus = (bounty) => {
+    // If status is manually set, use that
+    if (bounty.status) {
+      return bounty.status;
+    }
+    
+    // Otherwise, check if expired based on deadline
     const deadline = new Date(bounty.deadline);
     const now = new Date();
     
@@ -505,8 +515,8 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
   // Filter bounties by status
   const expiredBounties = allGames.filter(bounty => checkBountyStatus(bounty) === "EXPIRED");
   const activeBounties = allGames.filter(bounty => checkBountyStatus(bounty) === "ACTIVE");
-  const completedBounties = [];
-  const pendingBounties = [];
+  const completedBounties = allGames.filter(bounty => checkBountyStatus(bounty) === "COMPLETED");;
+  const pendingBounties = allGames.filter(bounty => checkBountyStatus(bounty) === "PENDING");
 
   const getBountiesByStatus = (status) => {
     switch (status) {
@@ -618,6 +628,8 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
              </div>
           </div>
         </div>
+
+        
         
         {/* Fixed Bottom Section */}
         <div className="terminal-bottom-fixed">
