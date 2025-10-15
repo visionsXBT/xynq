@@ -193,7 +193,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
     },
     {
       id: 28,
-      deadline: "Oct 16, 2025",
+      deadline: "Oct 14, 2025",
       title: "Fan Art Showcase",
       bounty: "0.35 SOL",
       difficulty: "EASY",
@@ -214,7 +214,106 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       bounty: "0.2 SOL",
       difficulty: "EASY",
       description: "Complete all three tasks: (1) Like LYNQ's pinned tweet, (2) Retweet it, (3) Leave a meaningful reply (minimum 30 characters—no spam or generic comments). Then take a screenshot showing all three completed actions visible in one image. Post the screenshot with #LYNQ. First 20 valid submissions enter a random draw. Winner must have actually completed all tasks—LYNQ will verify. Draw happens within 1 hour of deadline. Your account must be at least 1 month old to prevent bot entries."
+    },
+
+    {
+      id: 1,
+      deadline: "Oct 20, 2025, 11:59 PM",
+      title: "RT Frenzy",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "Retweet LYNQ's pinned post + tag 3 friends. Most retweets from your network in 24h wins. Pure viral power test."
+    },
+
+    {
+      id: 2,
+      deadline: "Oct 21, 2025, 11:59 PM",
+      title: "Quote Tweet War",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "Quote tweet LYNQ's challenge with your wildest take on AI trading. Most likes + RTs combined wins. Spice encouraged."
+    },
+    {
+      id: 3,
+      deadline: "Oct 22, 2025, 11:59 PM",
+      title: "Coffee Run Chaos",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "IRL: Buy coffee wearing something LYNQ/InvertBox related. Post proof pic on X with receipt + #LYNQCoffeeRun. First valid post wins."
+    },
+    {
+      id: 4,
+      deadline: "Oct 23, 2025, 11:59 PM",
+      title: "Engagement Farmer",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "Reply to LYNQ's tweet with a question that gets the most community replies within 12 hours. Strategy: be controversial or funny."
+    },
+    {
+      id: 5,
+      deadline: "Oct 24, 2025, 11:59 PM",
+      title: "Sidewalk Chalk Shill",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "IRL: Write 'LYNQ.FUN' or draw InvertBox logo in chalk somewhere public. Post pic on X with location tag. Most creative wins."
+    },
+    {
+      id: 6,
+      deadline: "Oct 25, 2025, 11:59 PM",
+      title: "Thread Master",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "Create a 5+ tweet thread explaining LYNQ to your grandma. Tag @invertbox. Most entertaining + informative thread wins."
+    },
+    {
+      id: 7,
+      deadline: "Oct 26, 2025, 11:59 PM",
+      title: "Meme Duel",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "Create original meme about Solana/AI/trading featuring LYNQ. Post with #LYNQMemes. Most viral (likes+RTs) in 24h wins."
+    },
+    {
+      id: 8,
+      deadline: "Oct 27, 2025, 11:59 PM",
+      title: "Tag Team Rally",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "Tag 10 crypto accounts under LYNQ's post with a reason why they'd love this. Most tags that actually engage back wins."
+    },
+    {
+      id: 9,
+      deadline: "Oct 28, 2025, 11:59 PM",
+      title: "Street Interview",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "IRL: Ask 3 strangers 'Have you heard of LYNQ?' Film reactions. Post on X. Funniest/most authentic interaction wins."
+    },
+    {
+      id: 10,
+      deadline: "Oct 29, 2025, 11:59 PM",
+      title: "Like Bomb Brigade",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "Like + meaningful reply to LYNQ's last 10 tweets. Screenshot your engagement proof. Most thoughtful engagement wins."
+    },
+    {
+      id: 11,
+      deadline: "Oct 30, 2025, 11:59 PM",
+      title: "Flash Mob Lite",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "IRL: Get 3+ friends to make LYNQ hand gesture (your design). Post group photo on X with #LYNQGang. Most creative/fun wins."
+    },
+    {
+      id: 12,
+      deadline: "Oct 31, 2025, 11:59 PM",
+      title: "Shill Olympics",
+      bounty: "0.25 SOL",
+      difficulty: "EASY",
+      description: "Post your best 280-char pitch for LYNQ under their announcement. Most convincing + viral (measured by engagement) wins."
     }
+  
   ];
 
   const hardBounties = [
@@ -284,7 +383,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
     },
     {
       id: 31,
-      deadline: "Oct 16, 2025",
+      deadline: "Oct 14, 2025",
       title: "The 10K Wall",
       bounty: "1.5 SOL",
       difficulty: "HARD",
@@ -292,7 +391,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
     },
     {
       id: 32,
-      deadline: "Oct 16, 2025",
+      deadline: "Oct 14, 2025",
       title: "Influencer Summon",
       bounty: "1.5 SOL",
       difficulty: "HARD",
@@ -300,7 +399,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
     },
     {
       id: 33,
-      deadline: "Oct 15, 2025",
+      deadline: "Oct 14, 2025",
       title: "Trending Takeover",
       bounty: "1.5 SOL",
       difficulty: "HARD",
@@ -308,7 +407,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
     },
     {
       id: 34,
-      deadline: "Oct 16, 2025",
+      deadline: "Oct 14, 2025",
       title: "The Million Eyes",
       bounty: "1.5 SOL",
       difficulty: "HARD",
@@ -316,11 +415,76 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
     },
     {
       id: 35,
-      deadline: "Oct 15, 2025",
+      deadline: "Oct 14, 2025",
       title: "Megathread Master",
       bounty: "1.2 SOL",
       difficulty: "HARD",
       description: "Write a comprehensive Twitter thread of EXACTLY 20 tweets explaining LYNQ's philosophy, mechanics, and impact. Each tweet must be well-crafted, informative, and build upon the previous one. Cover: LYNQ's origin story, the simulation theory angle, how games work, community impact, future vision, and your personal insights. The thread must include #LYNQ and @lynqfun in the first tweet. Thread will be judged on depth, accuracy, engagement, and how well it educates newcomers. The thread with the highest combined engagement (all 20 tweets' likes + RTs) after 72 hours wins. No engagement pods or artificial boosting."
+    },
+
+    {
+      id: 13,
+      deadline: "Nov 1, 2025, 11:59 PM",
+      title: "Viral Video Challenge",
+      bounty: "1.5 SOL",
+      difficulty: "HARD",
+      description: "Create 30-60 sec video explaining LYNQ in the most entertaining way. Post on X. Must hit 10K+ impressions + tag @invertbox. Highest engagement wins."
+    },
+    {
+      id: 14,
+      deadline: "Nov 3, 2025, 11:59 PM",
+      title: "Influencer Raid",
+      bounty: "1.5 SOL",
+      difficulty: "HARD",
+      description: "Get a crypto influencer (1K+ followers) to tweet about LYNQ. Screenshot proof + tag them. Biggest influencer engaged wins. They must genuinely engage."
+    },
+    {
+      id: 15,
+      deadline: "Nov 5, 2025, 11:59 PM",
+      title: "IRL Billboard Hunt",
+      bounty: "1.0 SOL",
+      difficulty: "HARD",
+      description: "Find a digital billboard, display LYNQ.FUN on your phone, hold it up for photo. Post on X with location. Most iconic location wins."
+    },
+    {
+      id: 16,
+      deadline: "Nov 7, 2025, 11:59 PM",
+      title: "Community Army Builder",
+      bounty: "1.5 SOL",
+      difficulty: "HARD",
+      description: "Get 50+ unique accounts to reply to LYNQ's pinned post within 48h. Proof via screenshot. Quality over bots - accounts checked. Most organic army wins."
+    },
+    {
+      id: 17,
+      deadline: "Nov 9, 2025, 11:59 PM",
+      title: "Tweet Storm Domination",
+      bounty: "1.0 SOL",
+      difficulty: "HARD",
+      description: "Create a 10-tweet storm about LYNQ + Solana ecosystem. Must be educational + entertaining. Most viral thread (combined metrics) wins."
+    },
+    {
+      id: 18,
+      deadline: "Nov 11, 2025, 11:59 PM",
+      title: "Guerrilla Marketing Madness",
+      bounty: "1.5 SOL",
+      difficulty: "HARD",
+      description: "IRL: Create physical LYNQ promo (sticker, poster, projection, etc) in high-traffic area. Photo/video on X. Most creative + visible wins."
+    },
+    {
+      id: 19,
+      deadline: "Nov 13, 2025, 11:59 PM",
+      title: "Spaces Takeover",
+      bounty: "1.0 SOL",
+      difficulty: "HARD",
+      description: "Host an X Space about LYNQ/InvertBox with 20+ live listeners. Record + post link. Tag @invertbox. Best content + attendance wins."
+    },
+    {
+      id: 20,
+      deadline: "Nov 15, 2025, 11:59 PM",
+      title: "Cross-Platform Blitz",
+      bounty: "1.5 SOL",
+      difficulty: "HARD",
+      description: "Post LYNQ content on X, Reddit, Discord, and TikTok/Instagram. Must show proof of posting + engagement on all 4. Highest total reach wins."
     }
   ];
 
