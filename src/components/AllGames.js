@@ -408,6 +408,17 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       difficulty: "HARD",
       description: "Push #LYNQ into the top 20 trending hashtags on X in ANY country or region. You can coordinate communities, create viral content, or rally supporters—whatever it takes. Once #LYNQ is trending, immediately take multiple screenshots showing: (1) #LYNQ in the trending list with position number, (2) timestamp, (3) region/country. Submit proof by tweeting all screenshots with #LYNQ and tagging @lynqfun. LYNQ will independently verify the trend was legitimate. First person to provide valid proof wins. Botting or artificial manipulation will result in disqualification."
     },
+
+    {
+    id: 20,
+    deadline: "Nov 3, 2025, 11:59 PM",
+    title: "Club Takeover",
+    bounty: "1.2 SOL",
+    difficulty: "IRL",
+    description: "Get LYNQ's name, logo, or website displayed on a screen inside a nightclub, bar, or live music venue during operating hours. The venue must have at least 50 people present at the time. Your submission must include: (1) Clear video showing the LYNQ display on screen, (2) Wide shot proving there are 50+ people in the venue, (3) Timestamp and location, (4) Venue name visible somewhere in the footage. The display must include #LYNQ or 'LYNQ' clearly readable. Can be displayed for as little as 1 minute, but you must capture it on video. Post proof on X with #LYNQ. First valid submission wins.",
+    status: "COMPLETED",
+    },
+
     {
       id: 34,
       deadline: "Oct 14, 2025",
