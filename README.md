@@ -3,7 +3,7 @@
 new
 new
 A modern, responsive React landing page built with beautiful UI/UX design principles.
-
+dot
 ## 🚀 Features
 
 - **Modern Design**: Clean, professional layout with gradient backgrounds and smooth animations
