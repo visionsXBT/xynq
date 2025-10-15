@@ -1,7 +1,7 @@
 # LYNQ Landing Page
 
 new
-
+new
 A modern, responsive React landing page built with beautiful UI/UX design principles.
 
 ## 🚀 Features
