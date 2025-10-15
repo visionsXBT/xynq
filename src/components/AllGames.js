@@ -44,8 +44,9 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       title: "Hashtag Hunt",
       bounty: "0.25 SOL",
       difficulty: "EASY",
+      status: "COMPLETED",
       description: "LYNQ posts a riddle that hints at a word. First to tweet the answer with #PlayWithLYNQ wins. Spreads the tag across X.",
-      case: "EXPIRED"
+      
     },
     {
       id: 2,
@@ -485,6 +486,7 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
       bounty: "1.5 SOL",
       difficulty: "HARD",
       description: "Post LYNQ content on X, Reddit, Discord, and TikTok/Instagram. Must show proof of posting + engagement on all 4. Highest total reach wins."
+    
     }
   ];
 
@@ -493,6 +495,12 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
 
   // Function to check if a bounty is expired based on deadline
   const checkBountyStatus = (bounty) => {
+    // If status is manually set, use that
+    if (bounty.status) {
+      return bounty.status;
+    }
+    
+    // Otherwise, check if expired based on deadline
     const deadline = new Date(bounty.deadline);
     const now = new Date();
     
@@ -505,8 +513,8 @@ const AllGames = ({ onBack, onNavigate, solBalance }) => {
   // Filter bounties by status
   const expiredBounties = allGames.filter(bounty => checkBountyStatus(bounty) === "EXPIRED");
   const activeBounties = allGames.filter(bounty => checkBountyStatus(bounty) === "ACTIVE");
-  const completedBounties = [];
-  const pendingBounties = [];
+  const completedBounties = allGames.filter(bounty => checkBountyStatus(bounty) === "COMPLETED");;
+  const pendingBounties = allGames.filter(bounty => checkBountyStatus(bounty) === "PENDING");
 
   const getBountiesByStatus = (status) => {
     switch (status) {
