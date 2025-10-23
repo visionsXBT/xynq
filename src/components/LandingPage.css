@@ -125,7 +125,7 @@ html, body {
 }
 
 .backroom-timestamp {
-  color: #00cc00;
+  color: #ffcc00;
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
 }
 
@@ -170,12 +170,12 @@ html, body {
 }
 
 .terminal-line.prompt {
-  color: #00cc00;
+  color: #ffcc00;
   font-weight: 500;
 }
 
 .terminal-line.info {
-  color: #00cc00;
+  color: #ffcc00;
   font-weight: 500;
 }
 
@@ -190,13 +190,13 @@ html, body {
 }
 
 .terminal-line.progress {
-  color: #00cc00;
+  color: #ffcc00;
   font-weight: 500;
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
 }
 
 .terminal-line.ascii {
-  color: #00cc00;
+  color: #ffcc00;
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
   white-space: pre;
   overflow-x: hidden;
@@ -226,7 +226,7 @@ html, body {
 
 .cursor {
   animation: blink 1s infinite;
-  color: #00cc00;
+  color: #ffcc00;
   font-weight: 500;
   margin-left: 1px;
 }
@@ -269,7 +269,7 @@ html, body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #00ff00, #00cc00);
+  background: linear-gradient(90deg, #ffff00, #ffcc00);
   transition: width 0.1s ease-out;
   position: relative;
 }
@@ -291,7 +291,7 @@ html, body {
 }
 
 .progress-text {
-  color: #00cc00;
+  color: #ffcc00;
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
   font-size: 14px;
   font-weight: 500;
@@ -331,8 +331,8 @@ html, body {
 }
 
 .command-option:hover {
-  color: #00cc00;
-  border-color: #00cc00;
+  color: #ffcc00;
+  border-color: #ffcc00;
 }
 
 .separator {
@@ -348,7 +348,7 @@ html, body {
 
 .balance-amount {
   text-decoration: underline;
-  color: #00cc00;
+  color: #ffcc00;
 }
 
 .copyright {
@@ -504,6 +504,35 @@ html, body {
   .copyright {
     font-size: 9px;
   }
+}
+
+/* Sleek Scrollbar Styles */
+.sleek-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sleek-scrollbar::-webkit-scrollbar-track {
+  background: #000000;
+  border-radius: 4px;
+}
+
+.sleek-scrollbar::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+  border: 1px solid #000000;
+  transition: background 0.2s ease;
+}
+
+.sleek-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+.sleek-scrollbar::-webkit-scrollbar-thumb:active {
+  background: #666666;
+}
+
+.sleek-scrollbar::-webkit-scrollbar-corner {
+  background: #000000;
 }
 
 /* Extra small mobile screens */

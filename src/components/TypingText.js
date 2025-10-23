@@ -69,10 +69,13 @@ const TypingText = ({ lines, typingSpeed = 50, lineDelay = 200, getLineStyle, on
         const isCurrentLineTyping = isCurrentLine && isTyping && currentIndex < lines.join('\n').length;
         
         // Special handling for the cat command line
-        if (originalLine === "lynq@invertbox:~$ cat welcome_message.txt") {
+        if (originalLine === "xynq@invertbox:~$ cat welcome_message.txt" || originalLine === "xynq@invertbox:~$ cat 欢迎信息.txt") {
           return (
             <div key={index} className={`terminal-line ${lineStyle}`}>
-              lynq@invertbox:~$ cat <span style={{color: '#888888'}}>welcome_message.txt</span>
+              {originalLine.includes('欢迎信息') ? 
+                <>xynq@invertbox:~$ cat <span style={{color: '#888888'}}>欢迎信息.txt</span></> :
+                <>xynq@invertbox:~$ cat <span style={{color: '#888888'}}>welcome_message.txt</span></>
+              }
               {isCurrentLineTyping && <span className="cursor">█</span>}
             </div>
           );

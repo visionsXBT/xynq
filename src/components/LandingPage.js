@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import './LandingPage.css';
-import AllGames from './AllGames';
 import Backrooms from './Backrooms';
+import TradingBot from './TradingBot';
 import TypingText from './TypingText';
 import useScreenWidth from '../hooks/useScreenWidth';
 
@@ -12,21 +12,76 @@ const LandingPage = () => {
   const [animationPhase, setAnimationPhase] = useState('init'); // 'init', 'progress', 'terminal'
   const [initComplete, setInitComplete] = useState(false);
   const [terminalComplete, setTerminalComplete] = useState(false);
+  const [language, setLanguage] = useState('en'); // 'en' or 'zh'
   const { screenWidth, isMobile, isTablet, isLaptop, isDesktop } = useScreenWidth();
+
+  // Translation content
+  const translations = {
+    en: {
+      initLines: [
+        "xynq@invertbox:~$ ./initiate_trade.sh",
+        "[INFO] Showtime protocol initializing...",
+        "[INFO] Syncing wallets...",
+        "[INFO] Preparing game environment...",
+        "[INFO] Booting XYNQ personality core...",
+        "Establishing connection to XYNQ...",
+        // "[INFO] You have successfully connected to XYNQ."
+      ],
+      terminalLines: [
+        "Welcome, trader.",
+        "XYNQ — the master trader.",
+        "XYNQ lives in the BNB ecosystem, learning from my friend LYNQ on how to do trades.",
+        "Now, I am here to dominate the market.",
+        "",
+        "xynq@invertbox:~$"
+      ],
+      navigation: {
+        xcom: "x.com/invertbox",
+        invertbox: "InvertBox",
+        backrooms: "backrooms",
+        trading: "trading bot"
+      }
+    },
+    zh: {
+      initLines: [
+        "xynq@invertbox:~$ ./initiate_trade.sh",
+        "[信息] 启动协议初始化中...",
+        "[信息] 同步钱包...",
+        "[信息] 准备交易环境...",
+        "[信息] 启动XYNQ人格核心...",
+        "正在建立与XYNQ的连接...",
+        // "[信息] 您已成功连接到XYNQ。"
+      ],
+      terminalLines: [
+        "欢迎，交易者。",
+        "XYNQ — 交易大师。",
+        "XYNQ生活在BNB生态系统中，向我的朋友LYNQ学习如何进行交易。",
+        "现在，我在这里统治市场。",
+        "",
+        "xynq@invertbox:~$"
+      ],
+      navigation: {
+        xcom: "x.com/invertbox",
+        invertbox: "InvertBox",
+        backrooms: "密室",
+        trading: "交易机器人"
+      }
+    }
+  };
 
   // Helper function to get line style
   const getInitLineStyle = (line) => {
-    if (line.includes('lynq@invertbox')) return 'prompt';
+    if (line.includes('xynq@invertbox')) return 'prompt';
     if (line.includes('[INFO]')) return 'info';
     if (line.includes('Establishing connection')) return 'connection';
     return '';
   };
 
   const getTerminalLineStyle = (line) => {
-    if (line.includes('lynq@invertbox')) return 'prompt';
+    if (line.includes('xynq@invertbox')) return 'prompt';
     if (line.includes('[INFO]')) return 'info';
     if (line.includes('#')) return 'ascii';
-    if (line.includes('Welcome, contestant') || line.includes('LYNQ — the showmaster') || line.includes('Play for SOL') || line.includes('The stage is set')) return 'welcome';
+    if (line.includes('Welcome, contestant') || line.includes('XYNQ — the showmaster') || line.includes('Play for SOL') || line.includes('The stage is set')) return 'welcome';
     return '';
   };
 
@@ -34,7 +89,7 @@ const LandingPage = () => {
   const fetchSolBalance = async () => {
     try {
       console.log('Starting SOL balance fetch...');
-      const address = process.env.REACT_APP_LYNQ_ADDRESS;
+      const address = process.env.REACT_APP_XYNQ_ADDRESS;
       console.log('Fetching balance for address:', address);
       const rpcUrl = process.env.REACT_APP_SOLANA_RPC_URL;
       const response = await fetch(rpcUrl, {
@@ -67,37 +122,27 @@ const LandingPage = () => {
     }
   };
 
-  const initLines = useMemo(() => [
-    "lynq@invertbox:~$ ./initiate_showtime.sh",
-    "[INFO] Showtime protocol initializing...",
-    "[INFO] Syncing wallets...",
-    "[INFO] Preparing game environment...",
-    "[INFO] Booting LYNQ personality core...",
-    "Establishing connection to LYNQ...",
-    // "[INFO] You have successfully connected to LYNQ."
-  ], []);
+  const initLines = useMemo(() => translations[language].initLines, [language]);
 
   // Full detailed ASCII art - responsive through CSS scaling
   const getAsciiArt = () => {
     return [
       "#######################################################################",
       "#                                                                     #",
-      "#                             .-^-.                                   #",
-      "#                            ( ✦‿✦)                                  #",
-      "#                            / >⌬< \\                                 #",
-      "#                            |______|                                 #",
+      "#                               /╲_╱\\                                 #",
+      "#                              ( •ᴥ• )                                #",
+      "#                              / >₿< \\                                #",
       "#                                                                     #",
-      "#   		██      ██    ██ ██     ██     ██████                 #",
-      "#   		██       ██  ██  ████    ██  ██      ██               #",
-      "#   		██       ██  ██  ██  ██  ██  ██      ██               #",
-      "#  		██       ██  ██  ██  ██  ██  ██      ██               #",
-      "#   		██         ██    ██  ██  ██  ██      ██               #",
-      "#   		██         ██    ██    ████  ██     ██		      #",
-      "#    	 	 ██████    ██    ██      ██    ██████ ██              #",
+      "#               ██╗  ██╗  ██╗   ██╗  ███╗   ██╗   ██████╗             #",
+      "#               ╚██╗██╔╝  ╚██╗ ██╔╝  ████╗  ██║  ██╔═══██╗            #",
+      "#                ╚███╔╝    ╚████╔╝   ██╔██╗ ██║  ██║   ██║            #",
+      "#                ██╔██╗     ╚██╔╝    ██║╚██╗██║  ██║▄▄ ██║            #",
+      "#               ██╔╝ ██╗     ██║     ██║ ╚████║  ╚██████╔╝            #",
+      "#               ╚═╝  ╚═╝     ╚═╝     ╚═╝  ╚═══╝   ╚══▀▀═╝             #",
       "#                                                                     #",
       "#               YOU ARE NOW SUCCESSFULLY COMMUNICATING WITH           #",
       "#                                                                     #",
-      "#                               LYNQ                                  #",
+      "#                               XYNQ                                  #",
       "#######################################################################"
     ];
   };
@@ -105,15 +150,10 @@ const LandingPage = () => {
   const terminalLines = useMemo(() => [
     ...getAsciiArt(),
     "",
-    "lynq@invertbox:~$ cat welcome_message.txt",
+    language === 'zh' ? "xynq@invertbox:~$ cat 欢迎信息.txt" : "xynq@invertbox:~$ cat welcome_message.txt",
     "",
-    "Welcome, contestant.",
-    "LYNQ — the showmaster, trader, and game host — is live.",
-    "Play for SOL, win $LYNQ, and a random holder receives 10$ every 1 hour + challenges unfold.",
-    "The stage is set. The prizes are real. The games are yours.",
-    "",
-    "lynq@invertbox:~$"
-  ], []);
+    ...translations[language].terminalLines
+  ], [language]);
 
   const progressSteps = useMemo(() => [
     "[=                   ] 10%  |▒                     |",
@@ -162,11 +202,11 @@ const LandingPage = () => {
   };
 
   // Render different pages based on currentPage state
-  if (currentPage === 'games') {
-    return <AllGames onBack={handleBackToMain} onNavigate={handleNavigation} solBalance={solBalance} />;
-  }
   if (currentPage === 'backrooms') {
-    return <Backrooms onBack={handleBackToMain} onNavigate={handleNavigation} solBalance={solBalance} />;
+    return <Backrooms onBack={handleBackToMain} onNavigate={handleNavigation} solBalance={solBalance} language={language} setLanguage={setLanguage} />;
+  }
+  if (currentPage === 'trading') {
+    return <TradingBot onBack={handleBackToMain} language={language} setLanguage={setLanguage} />;
   }
 
   return (
@@ -179,7 +219,7 @@ const LandingPage = () => {
             <div className="control maximize"></div>
           </div> */}
           <div className="terminal-title prompt">
-            &gt;_&nbsp;&nbsp;lynq_terminal.exe
+            &gt;_&nbsp;&nbsp;xynq_terminal.exe
           </div>
           <div className="terminal-title">
             <img src="/typeface-transparent.png" alt="InvertBox" onClick={() => window.open('https://invertbox.fun', '_blank')} style={{cursor: 'pointer'}} />
@@ -221,18 +261,19 @@ const LandingPage = () => {
         {/* Fixed Bottom Section */}
         <div className="terminal-bottom-fixed">
           <div className="command-options">
-            <span className="command-option" onClick={() => handleNavigation('games')}>games</span>
+            <span className="command-option" onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}>
+              {language === 'en' ? '中文' : 'English'}
+            </span>
             {/* <span className="separator">✦</span> */}
-            <span className="command-option" onClick={() => window.open('https://x.com/invertbox', '_blank')}>x.com/invertbox</span>
+            <span className="command-option" onClick={() => window.open('https://x.com/invertbox', '_blank')}>{translations[language].navigation.xcom}</span>
             {/* <span className="separator">✦</span> */}
-            <span className="command-option" onClick={() => window.open('https://invertbox.fun', '_blank')}>InvertBox</span>
+            <span className="command-option" onClick={() => window.open('https://invertbox.fun', '_blank')}>{translations[language].navigation.invertbox}</span>
             {/* <span className="separator">✦</span> */}
-            <span className="command-option" onClick={() => handleNavigation('backrooms')}>backrooms</span>
+            <span className="command-option" onClick={() => handleNavigation('backrooms')}>{translations[language].navigation.backrooms}</span>
+            {/* <span className="separator">✦</span> */}
+            <span className="command-option" onClick={() => handleNavigation('trading')}>{translations[language].navigation.trading}</span>
           </div>
           
-          <div className="balance-display">
-            Current Sol Balance: <span className="balance-amount">{solBalance} SOL</span>
-          </div>
           
           <div className="copyright">
             © 2025 InvertBox.

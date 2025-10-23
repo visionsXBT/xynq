@@ -1,4 +1,4 @@
-# LYNQ Landing Page
+# XYNQ Landing Page
 
 A modern, responsive React landing page built with beautiful UI/UX design principles.
 
@@ -30,7 +30,7 @@ A modern, responsive React landing page built with beautiful UI/UX design princi
 1. **Clone or download the project**
    ```bash
    # If you have the project files, navigate to the directory
-   cd lynq-landing
+   cd xynq-landing
    ```
 
 2. **Install dependencies**
