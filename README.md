@@ -54,6 +54,7 @@ npm install
 PORT=5000
 MONGODB_URI=your_mongodb_connection_string
 MONGODB_DB=xynq
+COINGECKO_API_KEY=your_coingecko_api_key
 ```
 
 4. Start the development server:
