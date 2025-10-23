@@ -666,8 +666,9 @@ app.get('/api/background-trading/status', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`XYNQ Trading Bot API running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
   connectToMongoDB();
   
   // Start background trading automatically
