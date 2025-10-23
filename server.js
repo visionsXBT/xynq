@@ -540,10 +540,10 @@ const shouldSell = (crypto, currentPrice) => {
 
 // Execute buy trade
 const executeBuy = async (crypto, price, portfolio) => {
-  const amount = Math.random() * 0.2 + 0.05; // Smaller trade amounts
+  const amount = Math.random() * 0.1 + 0.02; // Even smaller trade amounts
   const cost = amount * price;
   
-  if (cost > portfolio.value * 0.05) return false; // Don't spend more than 5% of portfolio
+  if (cost > portfolio.value * 0.02) return false; // Don't spend more than 2% of portfolio
   
   const tradeData = {
     type: 'buy',
