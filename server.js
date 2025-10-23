@@ -20,6 +20,11 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from React build
+app.use(express.static(path.join(__dirname, 'build')));
+
+// API Routes
+
 // MongoDB connection - hardcoded for testing
 const MONGODB_URI = "mongodb+srv://yuannkendrickhernando_db_user:yuann020202@cluster0.geiy0aq.mongodb.net/xynq?retryWrites=true&w=majority";
 const MONGODB_DB = "xynq";
@@ -339,6 +344,11 @@ app.delete('/api/trades', async (req, res) => {
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'XYNQ Trading Bot API is running' });
+});
+
+// Serve React app for all non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 // Background Trading System
