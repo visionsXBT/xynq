@@ -1,163 +1,119 @@
-# XYNQ Landing Page
+# XYNQ Trading Bot
 
-A modern, responsive React landing page built with beautiful UI/UX design principles.
+A sophisticated cryptocurrency trading bot with intelligent market analysis and real-time portfolio management.
 
 ## 🚀 Features
 
-- **Modern Design**: Clean, professional layout with gradient backgrounds and smooth animations
-- **Responsive**: Fully responsive design that works on all devices
-- **Interactive Elements**: Floating cards, hover effects, and smooth scrolling
-- **Performance Optimized**: Built with React best practices for optimal performance
-- **Accessible**: Semantic HTML and proper ARIA labels for accessibility
+- **Intelligent Trading Strategy**: SMA-based technical analysis with strict criteria
+- **Real-Time Market Data**: CoinGecko API integration for live cryptocurrency prices
+- **Background Trading**: 24/7 autonomous trading system running on the server
+- **Portfolio Management**: Real-time portfolio tracking with win rate calculation
+- **Database Persistence**: MongoDB integration for trade history and holdings
+- **Modern UI**: Sleek terminal-style interface with responsive design
+- **Risk Management**: Conservative profit targets (5%) and stop-losses (3%)
 
-## 🎨 Design Highlights
+## 🎯 Trading Strategy
 
-- **Hero Section**: Eye-catching hero with animated floating cards and connection lines
-- **Features Grid**: Clean feature cards with hover animations
-- **About Section**: Professional about section with tech stack showcase
-- **Call-to-Action**: Compelling CTA section with gradient background
-- **Footer**: Comprehensive footer with links and social media
+The bot uses a sophisticated SMA (Simple Moving Average) strategy:
+
+- **Buy Conditions**: 
+  - Price 3% below 5-period SMA
+  - Price 5% below 10-period SMA
+  - Recent downtrend confirmation
+  - Minimum 10 price points for analysis
+
+- **Sell Conditions**:
+  - 5% profit target
+  - 3% stop-loss
+  - Position sizing: 0.1-0.6 units per trade
 
 ## 🛠️ Tech Stack
 
-- **React 18**: Latest version of React with hooks
-- **CSS3**: Modern CSS with flexbox, grid, and animations
-- **Responsive Design**: Mobile-first approach with media queries
-- **Modern JavaScript**: ES6+ features and React best practices
+- **Frontend**: React.js with modern hooks
+- **Backend**: Node.js with Express.js
+- **Database**: MongoDB Atlas
+- **API**: CoinGecko for real-time prices
+- **Styling**: Custom CSS with terminal aesthetics
 
 ## 📦 Installation
 
-1. **Clone or download the project**
-   ```bash
-   # If you have the project files, navigate to the directory
-   cd xynq-landing
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm start
-   ```
-
-4. **Open your browser**
-   Navigate to `http://localhost:3000` to view the landing page
-
-## 🚀 Available Scripts
-
-- `npm start` - Runs the app in development mode
-- `npm build` - Builds the app for production
-- `npm test` - Launches the test runner
-- `npm eject` - Ejects from Create React App (one-way operation)
-
-## 📱 Responsive Breakpoints
-
-- **Desktop**: 1200px and above
-- **Tablet**: 768px - 1199px
-- **Mobile**: 480px - 767px
-- **Small Mobile**: Below 480px
-
-## 🎯 Sections
-
-1. **Navigation**: Fixed navigation with scroll effects
-2. **Hero**: Main landing section with title, description, and CTA buttons
-3. **Features**: Grid of feature cards with icons and descriptions
-4. **About**: Information about the company with tech stack
-5. **CTA**: Call-to-action section for conversions
-6. **Footer**: Links, social media, and company information
-
-## 🎨 Customization
-
-### Colors
-The main color scheme uses:
-- Primary: `#667eea` (Blue)
-- Secondary: `#764ba2` (Purple)
-- Accent: `#ffd700` (Gold)
-- Text: `#333` (Dark Gray)
-
-### Typography
-- Primary Font: System font stack (San Francisco, Segoe UI, etc.)
-- Font Weights: 400, 500, 600, 700, 800
-
-### Animations
-- Floating cards with CSS keyframes
-- Hover effects on buttons and cards
-- Smooth scrolling navigation
-- Gradient text effects
-
-## 📁 Project Structure
-
-```
-src/
-├── components/
-│   ├── LandingPage.js      # Main landing page component
-│   └── LandingPage.css     # Landing page styles
-├── App.js                  # Main App component
-├── App.css                 # App styles
-├── index.js                # React entry point
-└── index.css               # Global styles
-
-public/
-├── index.html              # HTML template
-└── manifest.json           # PWA manifest
-```
-
-## 🔧 Customization Guide
-
-### Changing Colors
-Edit the CSS variables in `LandingPage.css`:
-```css
-/* Update these values to change the color scheme */
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-```
-
-### Adding New Sections
-1. Add the section to `LandingPage.js`
-2. Style it in `LandingPage.css`
-3. Update navigation links if needed
-
-### Modifying Content
-- Update text content directly in the JSX
-- Change images by replacing the emoji icons with actual images
-- Modify the tech stack in the About section
-
-## 🚀 Deployment
-
-### Build for Production
+1. Clone the repository:
 ```bash
-npm run build
+git clone https://github.com/yourusername/xynq-trading-bot.git
+cd xynq-trading-bot
 ```
 
-This creates a `build` folder with optimized production files.
+2. Install dependencies:
+```bash
+npm install
+```
 
-### Deploy to Netlify
-1. Build the project: `npm run build`
-2. Drag and drop the `build` folder to Netlify
-3. Your site will be live!
+3. Set up environment variables:
+```bash
+# Create .env file
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+MONGODB_DB=xynq
+```
 
-### Deploy to Vercel
-1. Connect your GitHub repository to Vercel
-2. Vercel will automatically deploy on every push
-3. Custom domain can be added in Vercel dashboard
+4. Start the development server:
+```bash
+# Terminal 1: Start the API server
+npm run server
 
-## 📄 License
+# Terminal 2: Start the React app
+npm start
+```
 
-This project is licensed under the MIT License.
+## 🌐 Deployment
+
+This project is optimized for deployment on platforms that support persistent servers:
+
+### Railway (Recommended)
+1. Connect your GitHub repository
+2. Add MongoDB service
+3. Set environment variables
+4. Deploy!
+
+### Render
+1. Create new Web Service
+2. Connect GitHub repository
+3. Set build command: `npm install`
+4. Set start command: `npm run server`
+
+## 📊 API Endpoints
+
+- `GET /api/trades` - Get all trades
+- `POST /api/trades` - Save new trade
+- `DELETE /api/trades` - Clear all trades
+- `GET /api/portfolio` - Get portfolio data
+- `POST /api/portfolio` - Update portfolio
+- `GET /api/holdings` - Get current holdings
+- `POST /api/holdings` - Update holdings
+- `GET /api/background-trading/status` - Check trading status
+
+## 🎮 Usage
+
+1. **Main Page**: Landing page with navigation options
+2. **Backrooms**: Trading journey narrative
+3. **TradingBot**: Live trading simulation and history
+
+## ⚠️ Disclaimer
+
+This is a **simulation trading bot** for educational purposes. It does not execute real trades with actual money. Always do your own research before investing in cryptocurrencies.
+
+## 📝 License
+
+MIT License - see LICENSE file for details.
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📞 Support
 
-For support or questions, please contact the development team.
+For support, email your-email@example.com or create an issue on GitHub.
 
 ---
 
-**Built with ❤️ using React**
+**Built with ❤️ by the XYNQ Team**
