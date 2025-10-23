@@ -516,9 +516,9 @@ const shouldBuy = (crypto, currentPrice, prices) => {
   const sma5 = prices.slice(-5).reduce((sum, price) => sum + price, 0) / 5;
   const sma10 = prices.slice(-10).reduce((sum, price) => sum + price, 0) / 10;
   
-  // Buy when price is significantly below both SMAs (oversold)
-  const belowSMA5 = currentPrice < sma5 * 0.97; // 3% below 5-period SMA
-  const belowSMA10 = currentPrice < sma10 * 0.95; // 5% below 10-period SMA
+  // Buy when price is moderately below both SMAs (oversold)
+  const belowSMA5 = currentPrice < sma5 * 0.98; // 2% below 5-period SMA
+  const belowSMA10 = currentPrice < sma10 * 0.97; // 3% below 10-period SMA
   
   // Additional check: price should be trending down (recent prices declining)
   const recentTrend = prices.slice(-3).every((price, i) => 
@@ -534,16 +534,16 @@ const shouldSell = (crypto, currentPrice) => {
   const entryPrice = holdings[crypto.symbol].entryPrice;
   const profitPercent = ((currentPrice - entryPrice) / entryPrice) * 100;
   
-  // More conservative sell criteria
-  return profitPercent > 5 || profitPercent < -3; // Sell on 5% profit or 3% loss
+  // Conservative sell criteria - smaller risk/reward
+  return profitPercent > 2 || profitPercent < -2; // Sell on 2% profit or 2% loss
 };
 
 // Execute buy trade
 const executeBuy = async (crypto, price, portfolio) => {
-  const amount = Math.random() * 0.5 + 0.1;
+  const amount = Math.random() * 0.2 + 0.05; // Smaller trade amounts
   const cost = amount * price;
   
-  if (cost > portfolio.value * 0.1) return false; // Don't spend more than 10% of portfolio
+  if (cost > portfolio.value * 0.05) return false; // Don't spend more than 5% of portfolio
   
   const tradeData = {
     type: 'buy',
