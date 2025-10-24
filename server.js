@@ -632,6 +632,9 @@ const shouldSell = (crypto, currentPrice) => {
   const entryPrice = holdings[crypto.symbol].entryPrice;
   const profitPercent = ((currentPrice - entryPrice) / entryPrice) * 100;
   
+  // Debug logging
+  console.log(`[SELL CHECK] ${crypto.symbol}: Current $${currentPrice.toFixed(2)} | Entry $${entryPrice.toFixed(2)} | PNL ${profitPercent.toFixed(2)}%`);
+  
   // Lenient sell criteria - sell on small profit or small loss
   return profitPercent > 0.1 || profitPercent < -0.1; // Sell on 0.1% profit or 0.1% loss
 };
@@ -729,9 +732,9 @@ const executeSell = async (crypto, price) => {
   
   await saveTradeToMongoDB(tradeData);
   
-  // Update holdings - set this crypto to 0 but keep others
+  // Update holdings - remove this crypto completely but keep others
   const updatedHoldings = { ...currentHoldings };
-  updatedHoldings[crypto.symbol] = { amount: 0, entryPrice: 0, cost: 0 };
+  delete updatedHoldings[crypto.symbol]; // Remove the crypto completely instead of setting to 0
   
   // Update portfolio
   const newPortfolioValue = portfolio.value + proceeds;
