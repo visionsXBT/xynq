@@ -369,12 +369,80 @@ const cryptos = [
 let priceHistory = {};
 let holdings = {};
 
+// Rebuild holdings from trade history
+const rebuildHoldingsFromTrades = async () => {
+  try {
+    if (!db) return {};
+    const tradesCollection = db.collection('trades');
+    const trades = await tradesCollection.find({}).sort({ timestamp: 1 }).toArray();
+    
+    const reconstructedHoldings = {};
+    
+    for (const trade of trades) {
+      if (trade.type === 'buy') {
+        const symbol = trade.symbol;
+        if (!reconstructedHoldings[symbol]) {
+          reconstructedHoldings[symbol] = {
+            amount: 0,
+            entryPrice: 0,
+            cost: 0
+          };
+        }
+        
+        // Accumulate holdings
+        const existing = reconstructedHoldings[symbol];
+        const totalAmount = existing.amount + trade.amount;
+        const totalCost = existing.cost + trade.cost;
+        
+        reconstructedHoldings[symbol] = {
+          amount: totalAmount,
+          entryPrice: totalCost / totalAmount,
+          cost: totalCost
+        };
+      } else if (trade.type === 'sell') {
+        // Clear holdings on sell
+        reconstructedHoldings[trade.symbol] = {
+          amount: 0,
+          entryPrice: 0,
+          cost: 0
+        };
+      }
+    }
+    
+    // Filter out zero holdings
+    const filteredHoldings = {};
+    for (const [symbol, holding] of Object.entries(reconstructedHoldings)) {
+      if (holding.amount > 0) {
+        filteredHoldings[symbol] = holding;
+      }
+    }
+    
+    console.log(`[REBUILD HOLDINGS] Reconstructed from ${trades.length} trades:`, filteredHoldings);
+    return filteredHoldings;
+  } catch (error) {
+    console.error('Error rebuilding holdings from trades:', error);
+    return {};
+  }
+};
+
 // Load holdings from database
 const loadHoldings = async () => {
   try {
     if (!db) return {};
     const holdingsCollection = db.collection('holdings');
     const result = await holdingsCollection.findOne({});
+    
+    // If no holdings in database, rebuild from trade history
+    if (!result || Object.keys(result).length <= 1) { // Only has _id
+      console.log('[LOAD HOLDINGS] No holdings found, rebuilding from trade history...');
+      const rebuiltHoldings = await rebuildHoldingsFromTrades();
+      // Save rebuilt holdings to database
+      if (Object.keys(rebuiltHoldings).length > 0) {
+        await saveHoldings(rebuiltHoldings);
+      }
+      return rebuiltHoldings;
+    }
+    
     // Return just the holdings data, excluding _id
     if (result && result._id) {
       const { _id, ...holdingsData } = result;
