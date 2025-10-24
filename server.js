@@ -632,18 +632,19 @@ const executeBuy = async (crypto, price, portfolio) => {
   
   await saveTradeToMongoDB(tradeData);
   
-  // Update holdings
-  const existing = holdings[crypto.symbol];
+  // Update holdings - reload from database first to get latest state
+  const currentHoldings = await loadHoldings();
+  const existing = currentHoldings[crypto.symbol];
   if (existing && existing.amount > 0) {
     const totalAmount = existing.amount + amount;
     const totalCost = existing.cost + cost;
-    holdings[crypto.symbol] = {
+    currentHoldings[crypto.symbol] = {
       amount: totalAmount,
       entryPrice: totalCost / totalAmount,
       cost: totalCost
     };
   } else {
-    holdings[crypto.symbol] = {
+    currentHoldings[crypto.symbol] = {
       amount: amount,
       entryPrice: price,
       cost: cost
@@ -653,7 +654,10 @@ const executeBuy = async (crypto, price, portfolio) => {
   // Update portfolio
   const newPortfolioValue = portfolio.value - cost;
   await savePortfolio(newPortfolioValue, portfolio.winRate, portfolio.totalTrades);
-  await saveHoldings(holdings);
+  await saveHoldings(currentHoldings);
+  
+  // Update in-memory holdings
+  holdings = currentHoldings;
   
   console.log(`[BACKGROUND BUY] ${crypto.symbol} @ $${price.toFixed(2)} | Amount: ${amount.toFixed(6)} | Cost: $${cost.toFixed(2)}`);
   return true;
