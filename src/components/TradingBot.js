@@ -159,7 +159,7 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
     // Need at least 5 price points for SMA calculation
     if (prices.length < 5) return false;
     
-    // Calculate Simple Moving Average (last 5 prices)
+    // Calculate Simple Moving Average 
     const sma = prices.slice(-5).reduce((sum, price) => sum + price, 0) / 5;
     
     // Buy if price is below SMA (oversold condition)
@@ -177,7 +177,6 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
   };
 
   const executeBuy = async (crypto) => {
-    // Load current portfolio from database
     await loadPortfolio();
     
     const price = await getCryptoPrice(crypto.coingecko_id);
@@ -520,7 +519,7 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
               InvertBox
             </span>
             <span className="command-option" onClick={() => onBack()}>
-              back to main
+              {language === 'en' ? 'back to main' : '返回主页'}
             </span>
           </div>
           <div className="copyright">
