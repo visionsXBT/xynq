@@ -72,16 +72,19 @@ const LandingPage = () => {
   // Helper function to get line style
   const getInitLineStyle = (line) => {
     if (line.includes('xynq@invertbox')) return 'prompt';
-    if (line.includes('[INFO]')) return 'info';
-    if (line.includes('Establishing connection')) return 'connection';
+    if (line.includes('[INFO]') || line.includes('[信息]')) return 'info';
+    if (line.includes('Establishing connection') || line.includes('正在建立与XYNQ的连接')) return 'connection';
     return '';
   };
 
   const getTerminalLineStyle = (line) => {
     if (line.includes('xynq@invertbox')) return 'prompt';
-    if (line.includes('[INFO]')) return 'info';
+    if (line.includes('[INFO]') || line.includes('[信息]')) return 'info';
     if (line.includes('#')) return 'ascii';
+    // English patterns
     if (line.includes('Welcome, contestant') || line.includes('XYNQ — the showmaster') || line.includes('Play for SOL') || line.includes('The stage is set')) return 'welcome';
+    // Chinese patterns
+    if (line.includes('欢迎，交易者') || line.includes('XYNQ — 交易大师') || line.includes('XYNQ生活在BNB生态系统中') || line.includes('现在，我在这里统治市场')) return 'welcome';
     return '';
   };
 
