@@ -578,16 +578,16 @@ const shouldBuy = (crypto, currentPrice, prices) => {
   const sma5 = prices.slice(-5).reduce((sum, price) => sum + price, 0) / 5;
   const sma10 = prices.slice(-10).reduce((sum, price) => sum + price, 0) / 10;
   
-  // Buy when price is moderately below both SMAs (oversold)
-  const belowSMA5 = currentPrice < sma5 * 0.98; // 2% below 5-period SMA
-  const belowSMA10 = currentPrice < sma10 * 0.97; // 3% below 10-period SMA
+  // More aggressive buy criteria - easier to trigger buys
+  const belowSMA5 = currentPrice < sma5 * 0.99; // 1% below 5-period SMA
+  const belowSMA10 = currentPrice < sma10 * 0.98; // 2% below 10-period SMA
   
-  // Additional check: price should be trending down (recent prices declining)
-  const recentTrend = prices.slice(-3).every((price, i) => 
-    i === 0 || price < prices.slice(-3)[i-1]
+  // Relaxed trend requirement - just need some downward movement
+  const recentDecline = prices.slice(-2).some((price, i) => 
+    i > 0 && price < prices.slice(-2)[i-1]
   );
   
-  return belowSMA5 && belowSMA10 && recentTrend;
+  return belowSMA5 && belowSMA10 && recentDecline;
 };
 
 const shouldSell = (crypto, currentPrice) => {
