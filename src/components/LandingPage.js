@@ -22,7 +22,7 @@ const LandingPage = () => {
         "xynq@invertbox:~$ ./initiate_trade.sh",
         "[INFO] Trading protocol initializing...",
         "[INFO] Syncing wallets...",
-        "[INFO] Preparing game environment...",
+        "[INFO] Preparing trading environment...",
         "[INFO] Booting XYNQ personality core...",
         "Establishing connection to XYNQ...",
         // "[INFO] You have successfully connected to XYNQ."

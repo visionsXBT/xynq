@@ -173,7 +173,8 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
       
       addLog(`[XYNQ] Trading bot initialized.`, 'startup');
       addLog(`Starting Capital: $2,000.00`, 'startup');
-      addLog(`Strategy: Technical Analysis (SMA-based)`, 'startup');
+      addLog(`Strategy: Technical Analysis`, 'startup');
+      addLog(`Model: Claude 4-5 Sonnet `, 'startup');
       addLog(`Risk Management: 2% stop-loss, 3% take-profit`, 'startup');
       addLog(`Monitoring markets...`, 'startup');
       addLog('', 'info');
