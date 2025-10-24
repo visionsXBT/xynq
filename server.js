@@ -692,7 +692,15 @@ const executeBuy = async (crypto, price, portfolio) => {
 
 // Execute sell trade
 const executeSell = async (crypto, price, portfolio) => {
-  const holding = holdings[crypto.symbol];
+  // Reload holdings from database to ensure we have the latest state
+  const currentHoldings = await loadHoldings();
+  const holding = currentHoldings[crypto.symbol];
+  
+  if (!holding || holding.amount === 0) {
+    console.log(`[BACKGROUND SELL] No holding found for ${crypto.symbol}`);
+    return false;
+  }
+  
   const proceeds = holding.amount * price;
   const profit = proceeds - holding.cost;
   const profitPercent = (profit / holding.cost) * 100;
@@ -716,7 +724,7 @@ const executeSell = async (crypto, price, portfolio) => {
   await saveTradeToMongoDB(tradeData);
   
   // Update holdings - set this crypto to 0 but keep others
-  const updatedHoldings = { ...holdings };
+  const updatedHoldings = { ...currentHoldings };
   updatedHoldings[crypto.symbol] = { amount: 0, entryPrice: 0, cost: 0 };
   
   // Update portfolio
