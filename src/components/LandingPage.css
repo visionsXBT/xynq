@@ -389,6 +389,18 @@ html, body {
     padding: 0.75rem;
   }
   
+  /* Mobile trading logs */
+  .trading-logs {
+    font-size: 10px !important;
+    padding: 5px !important;
+    max-height: 60vh !important;
+  }
+  
+  .trading-logs .trade-entry {
+    margin-bottom: 1px !important;
+    font-size: 9px !important;
+  }
+  
   .terminal-title {
     font-size: 0.8rem;
   }

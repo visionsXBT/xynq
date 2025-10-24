@@ -375,6 +375,11 @@ const loadHoldings = async () => {
     if (!db) return {};
     const holdingsCollection = db.collection('holdings');
     const result = await holdingsCollection.findOne({});
+    // Return just the holdings data, excluding _id
+    if (result && result._id) {
+      const { _id, ...holdingsData } = result;
+      return holdingsData;
+    }
     return result || {};
   } catch (error) {
     console.error('Error loading holdings:', error);
