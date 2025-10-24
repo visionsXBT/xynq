@@ -456,6 +456,39 @@ const loadHoldings = async () => {
 };
 
 // Save holdings to database
+// Save holdings properly - merge individual crypto holdings instead of replacing entire document
+const saveHoldingsProperly = async (newHoldingsData) => {
+  try {
+    if (!db) return false;
+    const holdingsCollection = db.collection('holdings');
+    
+    // Get existing holdings from database
+    const existingDoc = await holdingsCollection.findOne({});
+    const existingHoldings = existingDoc ? (() => {
+      const { _id, ...holdings } = existingDoc;
+      return holdings;
+    })() : {};
+    
+    // Merge new holdings with existing holdings
+    const mergedHoldings = { ...existingHoldings, ...newHoldingsData };
+    
+    // Remove any holdings with 0 amount
+    const cleanedHoldings = {};
+    for (const [symbol, holding] of Object.entries(mergedHoldings)) {
+      if (holding.amount > 0) {
+        cleanedHoldings[symbol] = holding;
+      }
+    }
+    
+    // Save merged holdings
+    await holdingsCollection.replaceOne({}, cleanedHoldings, { upsert: true });
+    return true;
+  } catch (error) {
+    console.error('Error saving holdings properly:', error);
+    return false;
+  }
+};
+
 const saveHoldings = async (holdingsData) => {
   try {
     if (!db) return false;
@@ -654,7 +687,9 @@ const executeBuy = async (crypto, price, portfolio) => {
   // Update portfolio
   const newPortfolioValue = portfolio.value - cost;
   await savePortfolio(newPortfolioValue, portfolio.winRate, portfolio.totalTrades);
-  await saveHoldings(currentHoldings);
+  
+  // Save holdings properly - merge with existing holdings instead of replacing
+  await saveHoldingsProperly(currentHoldings);
   
   // Update in-memory holdings
   holdings = currentHoldings;
@@ -688,8 +723,9 @@ const executeSell = async (crypto, price, portfolio) => {
   
   await saveTradeToMongoDB(tradeData);
   
-  // Update holdings
-  holdings[crypto.symbol] = { amount: 0, entryPrice: 0, cost: 0 };
+  // Update holdings - set this crypto to 0 but keep others
+  const updatedHoldings = { ...holdings };
+  updatedHoldings[crypto.symbol] = { amount: 0, entryPrice: 0, cost: 0 };
   
   // Update portfolio
   const newPortfolioValue = portfolio.value + proceeds;
@@ -698,7 +734,10 @@ const executeSell = async (crypto, price, portfolio) => {
   const newWinRate = (newWins / newTotalTrades) * 100;
   
   await savePortfolio(newPortfolioValue, newWinRate, newTotalTrades);
-  await saveHoldings(holdings);
+  await saveHoldingsProperly(updatedHoldings);
+  
+  // Update in-memory holdings
+  holdings = updatedHoldings;
   
   console.log(`[BACKGROUND SELL] ${crypto.symbol} @ $${price.toFixed(2)} | Entry: $${holding.entryPrice.toFixed(2)} | PNL: $${profit.toFixed(2)} (${profitPercent.toFixed(2)}%)`);
   return true;
