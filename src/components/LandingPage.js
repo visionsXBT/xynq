@@ -20,7 +20,7 @@ const LandingPage = () => {
     en: {
       initLines: [
         "xynq@invertbox:~$ ./initiate_trade.sh",
-        "[INFO] Showtime protocol initializing...",
+        "[INFO] Trading protocol initializing...",
         "[INFO] Syncing wallets...",
         "[INFO] Preparing game environment...",
         "[INFO] Booting XYNQ personality core...",
@@ -45,7 +45,7 @@ const LandingPage = () => {
     zh: {
       initLines: [
         "xynq@invertbox:~$ ./initiate_trade.sh",
-        "[信息] 启动协议初始化中...",
+        "[信息] 交易协议初始化中...",
         "[信息] 同步钱包...",
         "[信息] 准备交易环境...",
         "[信息] 启动XYNQ人格核心...",
