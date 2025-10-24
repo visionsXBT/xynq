@@ -534,8 +534,8 @@ const shouldSell = (crypto, currentPrice) => {
   const entryPrice = holdings[crypto.symbol].entryPrice;
   const profitPercent = ((currentPrice - entryPrice) / entryPrice) * 100;
   
-  // Conservative sell criteria - smaller risk/reward
-  return profitPercent > 2 || profitPercent < -2; // Sell on 2% profit or 2% loss
+  // More aggressive sell criteria - easier to trigger sells
+  return profitPercent > 1 || profitPercent < -1; // Sell on 1% profit or 1% loss
 };
 
 // Execute buy trade
