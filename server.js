@@ -614,23 +614,16 @@ const backgroundTrading = async () => {
   }
 };
 
-// Trading decision functions - moderately strict criteria
+// Trading decision functions - moderately lenient criteria
 const shouldBuy = (crypto, currentPrice, prices) => {
-  // Need at least 5 price points for better analysis
+  // Need at least 5 price points for SMA5 calculation
   if (prices.length < 5) return false;
   
-  // Calculate simple moving averages
+  // Calculate SMA5
   const sma5 = prices.slice(-5).reduce((sum, price) => sum + price, 0) / 5;
-  const sma10 = prices.length >= 10 ? prices.slice(-10).reduce((sum, price) => sum + price, 0) / 10 : sma5;
   
-  // Check for downward trend (last 3 prices declining)
-  const recent3 = prices.slice(-3);
-  const isDeclining = recent3[0] > recent3[1] && recent3[1] > recent3[2];
-  
-  // Buy criteria: price below SMA5 and SMA10, with declining trend
-  return currentPrice < sma5 * 0.98 && // Price 2% below SMA5
-         currentPrice < sma10 * 0.95 && // Price 5% below SMA10
-         isDeclining; // Confirmed downward trend
+  // Buy if current price is below SMA5 (moderately lenient)
+  return currentPrice < sma5;
 };
 
 const shouldSell = (crypto, currentPrice) => {
@@ -639,8 +632,8 @@ const shouldSell = (crypto, currentPrice) => {
   const entryPrice = holdings[crypto.symbol].entryPrice;
   const profitPercent = ((currentPrice - entryPrice) / entryPrice) * 100;
   
-  // Sell criteria: 2% profit or 1.5% loss
-  return profitPercent > 2.0 || profitPercent < -1.5;
+  // Lenient sell criteria - sell on small profit or small loss
+  return profitPercent > 0.1 || profitPercent < -0.1; // Sell on 0.1% profit or 0.1% loss
 };
 
 // Execute buy trade
