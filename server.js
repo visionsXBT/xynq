@@ -594,13 +594,14 @@ const backgroundTrading = async () => {
       if (shouldSell(crypto, price)) {
         await executeSell(crypto, price);
         tradesExecuted++;
-        continue; // Skip buy check after selling
+        break; // Only execute 1 trade per scan
       }
       
       // Check for buy signal only if we have enough price history
       if (shouldBuy(crypto, price, prices)) {
         await executeBuy(crypto, price);
         tradesExecuted++;
+        break; // Only execute 1 trade per scan
       }
     }
     
@@ -613,17 +614,23 @@ const backgroundTrading = async () => {
   }
 };
 
-// Trading decision functions - more realistic criteria
+// Trading decision functions - moderately strict criteria
 const shouldBuy = (crypto, currentPrice, prices) => {
-  // Need at least 3 price points for basic analysis
-  if (prices.length < 3) return false;
+  // Need at least 5 price points for better analysis
+  if (prices.length < 5) return false;
   
-  // Very lenient criteria for testing - just need some price movement
-  const recentPrices = prices.slice(-3);
-  const avgPrice = recentPrices.reduce((sum, price) => sum + price, 0) / recentPrices.length;
+  // Calculate simple moving averages
+  const sma5 = prices.slice(-5).reduce((sum, price) => sum + price, 0) / 5;
+  const sma10 = prices.length >= 10 ? prices.slice(-10).reduce((sum, price) => sum + price, 0) / 10 : sma5;
   
-  // Buy if current price is below recent average (very easy to trigger)
-  return currentPrice < avgPrice * 1.01; // Even 1% above average can trigger buy
+  // Check for downward trend (last 3 prices declining)
+  const recent3 = prices.slice(-3);
+  const isDeclining = recent3[0] > recent3[1] && recent3[1] > recent3[2];
+  
+  // Buy criteria: price below SMA5 and SMA10, with declining trend
+  return currentPrice < sma5 * 0.98 && // Price 2% below SMA5
+         currentPrice < sma10 * 0.95 && // Price 5% below SMA10
+         isDeclining; // Confirmed downward trend
 };
 
 const shouldSell = (crypto, currentPrice) => {
@@ -632,8 +639,8 @@ const shouldSell = (crypto, currentPrice) => {
   const entryPrice = holdings[crypto.symbol].entryPrice;
   const profitPercent = ((currentPrice - entryPrice) / entryPrice) * 100;
   
-  // Very lenient sell criteria for testing - sell on any profit or small loss
-  return profitPercent > 0.1 || profitPercent < -0.1; // Sell on 0.1% profit or 0.1% loss
+  // Sell criteria: 2% profit or 1.5% loss
+  return profitPercent > 2.0 || profitPercent < -1.5;
 };
 
 // Execute buy trade
@@ -760,10 +767,10 @@ const startBackgroundTrading = () => {
   // Initial market scan
   backgroundTrading();
   
-  // Set up intelligent monitoring - check every 30 seconds for opportunities
+  // Set up intelligent monitoring - check every 5 seconds for opportunities
   backgroundTradingInterval = setInterval(() => {
     backgroundTrading();
-  }, 30000); // Check every 30 seconds for trading opportunities
+  }, 5000); // Check every 5 seconds for trading opportunities
 };
 
 // Stop background trading
