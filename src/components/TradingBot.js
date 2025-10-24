@@ -11,6 +11,11 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
   const [allTrades, setAllTrades] = useState([]);
   const portfolioRef = useRef(2000.00);
 
+  const getApiBaseUrl = () => {
+    // Use Railway URL in production, localhost in development
+    return window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://xynq-production.up.railway.app';
+  };
+
   const cryptos = [
     { symbol: 'SOL', coingecko_id: 'solana' },
     { symbol: 'BTC', coingecko_id: 'bitcoin' },
@@ -30,7 +35,7 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
 
   const saveTradeToMongoDB = async (tradeData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/trades', {
+      const response = await fetch(`${getApiBaseUrl()}/api/trades`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +58,7 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
 
   const loadHoldings = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/holdings');
+      const response = await fetch(`${getApiBaseUrl()}/api/holdings`);
       if (response.ok) {
         const result = await response.json();
         setHoldings(result.holdings || {});
@@ -65,7 +70,7 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
 
   const saveHoldings = async (holdingsData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/holdings', {
+      const response = await fetch(`${getApiBaseUrl()}/api/holdings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +86,7 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
 
   const loadPortfolio = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/portfolio');
+      const response = await fetch(`${getApiBaseUrl()}/api/portfolio`);
       if (response.ok) {
         const result = await response.json();
         const portfolio = result.portfolio;
@@ -108,7 +113,7 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
 
   const savePortfolio = async (value, winRate, totalTrades) => {
     try {
-      const response = await fetch('http://localhost:5000/api/portfolio', {
+      const response = await fetch(`${getApiBaseUrl()}/api/portfolio`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +129,7 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
 
   const loadAllTrades = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/trades');
+      const response = await fetch(`${getApiBaseUrl()}/api/trades`);
       if (response.ok) {
         const result = await response.json();
         setAllTrades(result.trades || []);
@@ -136,7 +141,7 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
 
   const getCryptoPrice = async (coingecko_id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/price/${coingecko_id}`);
+      const response = await fetch(`${getApiBaseUrl()}/api/price/${coingecko_id}`);
       
       if (response.ok) {
         const data = await response.json();
