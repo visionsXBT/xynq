@@ -155,238 +155,18 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
     return recentPrices.reduce((sum, price) => sum + price, 0) / period;
   };
 
-  const shouldBuy = (crypto, currentPrice, prices) => {
-    // Need at least 5 price points for SMA calculation
-    if (prices.length < 5) return false;
-    
-    // Calculate Simple Moving Average 
-    const sma = prices.slice(-5).reduce((sum, price) => sum + price, 0) / 5;
-    
-    // Buy if price is below SMA (oversold condition)
-    return currentPrice < sma * 0.98; // 2% below SMA
-  };
+  // Trading decision functions removed - only server.js handles trading decisions
 
-  const shouldSell = (crypto, currentPrice) => {
-    if (!holdings[crypto.symbol] || holdings[crypto.symbol].amount === 0) return false;
-    
-    const entryPrice = holdings[crypto.symbol].entryPrice;
-    const profitPercent = ((currentPrice - entryPrice) / entryPrice) * 100;
-    
-    // Sell on 3% profit or 2% loss (risk management)
-    return profitPercent > 3 || profitPercent < -2;
-  };
+  // Trading functions removed - only server.js handles trading
 
-  const executeBuy = async (crypto) => {
-    await loadPortfolio();
-    
-    const price = await getCryptoPrice(crypto.coingecko_id);
-    if (!price) return false;
+  // All trading functions removed - only server.js handles trading
 
-    const amount = Math.random() * 0.5 + 0.1; // Random amount between 0.1 and 0.6
-    const cost = amount * price;
-
-    if (cost > portfolioRef.current * 0.1) return false; // Don't spend more than 10% of portfolio
-
-    const tradeData = {
-      type: 'buy',
-      symbol: crypto.symbol,
-      coingecko_id: crypto.coingecko_id,
-      amount: amount,
-      price: price,
-      cost: cost,
-      portfolioValue: portfolioRef.current - cost,
-      winRate: winRate,
-      timestamp: new Date().toISOString()
-    };
-
-    // Save to MongoDB
-    await saveTradeToMongoDB(tradeData);
-
-    setHoldings(prev => {
-      const existing = prev[crypto.symbol];
-      if (existing && existing.amount > 0) {
-        // Accumulate holdings - calculate weighted average entry price
-        const totalAmount = existing.amount + amount;
-        const totalCost = existing.cost + cost;
-        const avgEntryPrice = totalCost / totalAmount;
-        
-        return {
-          ...prev,
-          [crypto.symbol]: {
-            amount: totalAmount,
-            entryPrice: avgEntryPrice,
-            cost: totalCost
-          }
-        };
-      } else {
-        // First purchase of this crypto
-        return {
-          ...prev,
-          [crypto.symbol]: {
-            amount: amount,
-            entryPrice: price,
-            cost: cost
-          }
-        };
-      }
-    });
-
-    const newPortfolioValue = portfolioRef.current - cost;
-    setPortfolioValue(newPortfolioValue);
-    portfolioRef.current = newPortfolioValue;
-    
-    // Save updated portfolio and holdings to database
-    await savePortfolio(newPortfolioValue, winRate, totalTrades);
-    
-    // Get the updated holdings for database save
-    const updatedHoldings = holdings[crypto.symbol] && holdings[crypto.symbol].amount > 0 
-      ? {
-          ...holdings,
-          [crypto.symbol]: {
-            amount: holdings[crypto.symbol].amount + amount,
-            entryPrice: (holdings[crypto.symbol].cost + cost) / (holdings[crypto.symbol].amount + amount),
-            cost: holdings[crypto.symbol].cost + cost
-          }
-        }
-      : {
-          ...holdings,
-          [crypto.symbol]: {
-            amount: amount,
-            entryPrice: price,
-            cost: cost
-          }
-        };
-    
-    await saveHoldings(updatedHoldings);
-    
-    addLog(`[XYNQ BUY] ${crypto.symbol} @ $${price.toFixed(2)} | Amount: ${amount.toFixed(6)} | Cost: $${cost.toFixed(2)}`, 'buy');
-    addLog(`Portfolio: $${newPortfolioValue.toFixed(2)} | Win Rate: ${winRate.toFixed(1)}%`, 'info');
-    addLog('', 'info');
-    return true;
-  };
-
-  const executeSell = async (crypto) => {
-    // Load current portfolio from database
-    await loadPortfolio();
-    
-    const price = await getCryptoPrice(crypto.coingecko_id);
-    if (!price) return false;
-
-    const holding = holdings[crypto.symbol];
-    const proceeds = holding.amount * price;
-    const profit = proceeds - holding.cost;
-    const profitPercent = (profit / holding.cost) * 100;
-
-    const tradeData = {
-      type: 'sell',
-      symbol: crypto.symbol,
-      coingecko_id: crypto.coingecko_id,
-      amount: holding.amount,
-      price: price,
-      entryPrice: holding.entryPrice,
-      cost: holding.cost,
-      proceeds: proceeds,
-      profit: profit,
-      profitPercent: profitPercent,
-      portfolioValue: portfolioRef.current + proceeds,
-      winRate: winRate,
-      timestamp: new Date().toISOString()
-    };
-
-    // Save to MongoDB
-    await saveTradeToMongoDB(tradeData);
-
-    setHoldings(prev => ({
-      ...prev,
-      [crypto.symbol]: { amount: 0, entryPrice: 0, cost: 0 }
-    }));
-
-    const newPortfolioValue = portfolioRef.current + proceeds;
-    setPortfolioValue(newPortfolioValue);
-    portfolioRef.current = newPortfolioValue;
-    setTotalTrades(prev => prev + 1);
-    
-    if (profit > 0) {
-      setWinRate(prev => {
-        const newTrades = totalTrades + 1;
-        const newWins = Math.floor(prev * totalTrades / 100) + 1;
-        return (newWins / newTrades) * 100;
-      });
-    } else {
-      setWinRate(prev => {
-        const newTrades = totalTrades + 1;
-        const newWins = Math.floor(prev * totalTrades / 100);
-        return (newWins / newTrades) * 100;
-      });
-    }
-
-    // Save updated portfolio and holdings to database
-    await savePortfolio(newPortfolioValue, winRate, totalTrades + 1);
-    await saveHoldings({
-      ...holdings,
-      [crypto.symbol]: { amount: 0, entryPrice: 0, cost: 0 }
-    });
-
-    const profitColor = profit > 0 ? 'profit' : 'loss';
-    addLog(`[XYNQ SELL] ${crypto.symbol} @ $${price.toFixed(2)}`, 'sell');
-    addLog(`Entry: $${holding.entryPrice.toFixed(2)} | PNL: $${profit.toFixed(2)} (${profitPercent.toFixed(2)}%)`, profitColor);
-    addLog(`Portfolio: $${newPortfolioValue.toFixed(2)} | Win Rate: ${winRate.toFixed(1)}%`, 'info');
-    addLog('', 'info');
-    return true;
-  };
-
-  const simulateTrading = async () => {
-    // Update price history for all cryptos (silently)
-    for (const crypto of cryptos) {
-      const price = await getCryptoPrice(crypto.coingecko_id);
-      if (price) {
-        setPriceHistory(prev => ({
-          ...prev,
-          [crypto.symbol]: [...(prev[crypto.symbol] || []).slice(-19), price]
-        }));
-      }
-    }
-
-    // Check for sell opportunities first
-    for (const crypto of cryptos) {
-      const price = await getCryptoPrice(crypto.coingecko_id);
-      if (price && shouldSell(crypto, price)) {
-        await executeSell(crypto);
-        return; // Exit after executing one trade
-      }
-    }
-
-    // Check for buy opportunities
-    for (const crypto of cryptos) {
-      const price = await getCryptoPrice(crypto.coingecko_id);
-      const prices = priceHistory[crypto.symbol] || [];
-      
-      if (price && shouldBuy(crypto, price, prices)) {
-        await executeBuy(crypto);
-        return; // Exit after executing one trade
-      }
-    }
-
-    // Fallback: Random trade if no technical signals (50% chance)
-    if (Math.random() < 0.5) {
-      const randomCrypto = cryptos[Math.floor(Math.random() * cryptos.length)];
-      const price = await getCryptoPrice(randomCrypto.coingecko_id);
-      if (price) {
-        const hasHolding = holdings[randomCrypto.symbol] && holdings[randomCrypto.symbol].amount > 0;
-        
-        if (hasHolding) {
-          await executeSell(randomCrypto);
-        } else {
-          await executeBuy(randomCrypto);
-        }
-      }
-    }
-  };
+  // All trading logic removed - only server.js handles trading
 
   const hasInitialized = useRef(false);
 
   useEffect(() => {
-    let interval;
+    let refreshInterval;
     
     if (!hasInitialized.current) {
       hasInitialized.current = true;
@@ -404,13 +184,17 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
       loadAllTrades();
     }
 
-    // Simulate trading every 12 seconds for proper analysis
-    interval = setInterval(() => {
-      simulateTrading();
-    }, 12000);
+    // Refresh trades from server.js every 2 seconds to show new trades
+    refreshInterval = setInterval(() => {
+      loadAllTrades();
+      loadPortfolio();
+      loadHoldings();
+    }, 2000);
 
     return () => {
-      if (interval) clearInterval(interval);
+      if (refreshInterval) {
+        clearInterval(refreshInterval);
+      }
     };
   }, []);
 
