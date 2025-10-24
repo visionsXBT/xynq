@@ -429,26 +429,15 @@ const rebuildHoldingsFromTrades = async () => {
 const loadHoldings = async () => {
   try {
     if (!db) return {};
-    const holdingsCollection = db.collection('holdings');
-    const result = await holdingsCollection.findOne({});
     
-    // If no holdings in database, rebuild from trade history
-    if (!result || Object.keys(result).length <= 1) { // Only has _id
-      console.log('[LOAD HOLDINGS] No holdings found, rebuilding from trade history...');
-      const rebuiltHoldings = await rebuildHoldingsFromTrades();
-      // Save rebuilt holdings to database
-      if (Object.keys(rebuiltHoldings).length > 0) {
-        await saveHoldings(rebuiltHoldings);
-      }
-      return rebuiltHoldings;
+    // Always rebuild from trade history to ensure accuracy
+    console.log('[LOAD HOLDINGS] Rebuilding from trade history...');
+    const rebuiltHoldings = await rebuildHoldingsFromTrades();
+    // Save rebuilt holdings to database
+    if (Object.keys(rebuiltHoldings).length > 0) {
+      await saveHoldings(rebuiltHoldings);
     }
-    
-    // Return just the holdings data, excluding _id
-    if (result && result._id) {
-      const { _id, ...holdingsData } = result;
-      return holdingsData;
-    }
-    return result || {};
+    return rebuiltHoldings;
   } catch (error) {
     console.error('Error loading holdings:', error);
     return {};
