@@ -615,23 +615,15 @@ const backgroundTrading = async () => {
 
 // Trading decision functions - more realistic criteria
 const shouldBuy = (crypto, currentPrice, prices) => {
-  // Need at least 10 price points for reliable analysis
-  if (prices.length < 10) return false;
+  // Need at least 3 price points for basic analysis
+  if (prices.length < 3) return false;
   
-  // Calculate 5-period and 10-period SMAs
-  const sma5 = prices.slice(-5).reduce((sum, price) => sum + price, 0) / 5;
-  const sma10 = prices.slice(-10).reduce((sum, price) => sum + price, 0) / 10;
+  // Very lenient criteria for testing - just need some price movement
+  const recentPrices = prices.slice(-3);
+  const avgPrice = recentPrices.reduce((sum, price) => sum + price, 0) / recentPrices.length;
   
-  // More aggressive buy criteria - easier to trigger buys
-  const belowSMA5 = currentPrice < sma5 * 0.99; // 1% below 5-period SMA
-  const belowSMA10 = currentPrice < sma10 * 0.98; // 2% below 10-period SMA
-  
-  // Relaxed trend requirement - just need some downward movement
-  const recentDecline = prices.slice(-2).some((price, i) => 
-    i > 0 && price < prices.slice(-2)[i-1]
-  );
-  
-  return belowSMA5 && belowSMA10 && recentDecline;
+  // Buy if current price is below recent average (very easy to trigger)
+  return currentPrice < avgPrice * 1.01; // Even 1% above average can trigger buy
 };
 
 const shouldSell = (crypto, currentPrice) => {
@@ -640,8 +632,8 @@ const shouldSell = (crypto, currentPrice) => {
   const entryPrice = holdings[crypto.symbol].entryPrice;
   const profitPercent = ((currentPrice - entryPrice) / entryPrice) * 100;
   
-  // Very aggressive sell criteria for testing
-  return profitPercent > 0.5 || profitPercent < -0.5; // Sell on 0.5% profit or 0.5% loss
+  // Very lenient sell criteria for testing - sell on any profit or small loss
+  return profitPercent > 0.1 || profitPercent < -0.1; // Sell on 0.1% profit or 0.1% loss
 };
 
 // Execute buy trade
