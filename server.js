@@ -725,7 +725,7 @@ const executeSell = async (crypto, price) => {
     proceeds: proceeds,
     profit: profit,
     profitPercent: profitPercent,
-    portfolioValue: portfolio.value + proceeds,
+    portfolioValue: portfolio.value + profit,
     winRate: portfolio.winRate,
     timestamp: new Date().toISOString()
   };
@@ -737,7 +737,7 @@ const executeSell = async (crypto, price) => {
   delete updatedHoldings[crypto.symbol]; // Remove the crypto completely instead of setting to 0
   
   // Update portfolio
-  const newPortfolioValue = portfolio.value + proceeds;
+  const newPortfolioValue = portfolio.value + profit;
   const newTotalTrades = portfolio.totalTrades + 1;
   const newWins = Math.floor(portfolio.winRate * portfolio.totalTrades / 100) + (profit > 0 ? 1 : 0);
   const newWinRate = (newWins / newTotalTrades) * 100;
