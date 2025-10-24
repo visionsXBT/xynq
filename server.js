@@ -592,14 +592,14 @@ const backgroundTrading = async () => {
       
       // Check for sell signal first (exit existing positions)
       if (shouldSell(crypto, price)) {
-        await executeSell(crypto, price, portfolio);
+        await executeSell(crypto, price);
         tradesExecuted++;
         continue; // Skip buy check after selling
       }
       
       // Check for buy signal only if we have enough price history
       if (shouldBuy(crypto, price, prices)) {
-        await executeBuy(crypto, price, portfolio);
+        await executeBuy(crypto, price);
         tradesExecuted++;
       }
     }
@@ -637,7 +637,10 @@ const shouldSell = (crypto, currentPrice) => {
 };
 
 // Execute buy trade
-const executeBuy = async (crypto, price, portfolio) => {
+const executeBuy = async (crypto, price) => {
+  // Reload portfolio from database to get the most recent value
+  const portfolio = await loadPortfolio();
+  
   const amount = Math.random() * 0.1 + 0.02; // Even smaller trade amounts
   const cost = amount * price;
   
@@ -691,7 +694,10 @@ const executeBuy = async (crypto, price, portfolio) => {
 };
 
 // Execute sell trade
-const executeSell = async (crypto, price, portfolio) => {
+const executeSell = async (crypto, price) => {
+  // Reload portfolio from database to get the most recent value
+  const portfolio = await loadPortfolio();
+  
   // Reload holdings from database to ensure we have the latest state
   const currentHoldings = await loadHoldings();
   const holding = currentHoldings[crypto.symbol];
