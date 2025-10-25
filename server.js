@@ -296,46 +296,15 @@ app.get('/api/portfolio', async (req, res) => {
       return holdingsData;
     })() : {};
     
-    let totalHoldingsValue = 0;
-    
-    // Calculate holdings value based on current prices
-    for (const [symbol, holding] of Object.entries(holdings)) {
-      if (holding && holding.amount > 0) {
-        // Get current price for this crypto
-        const crypto = cryptos.find(c => c.symbol === symbol);
-        if (crypto) {
-          try {
-            const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${crypto.coingecko_id}&vs_currencies=usd`, {
-              headers: {
-                'x-cg-demo-api-key': 'CG-q2ignizEJ8JtUBySUe1wtU1K'
-              }
-            });
-            
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            const currentPrice = data[crypto.coingecko_id]?.usd;
-            if (currentPrice) {
-              totalHoldingsValue += holding.amount * currentPrice;
-            }
-          } catch (error) {
-            console.error(`Error fetching price for ${symbol}:`, error);
-          }
-        }
-      }
-    }
-    
     const cashValue = portfolio ? (portfolio.cash || portfolio.value || 2000.00) : 2000.00;
-    const totalPortfolioValue = cashValue + totalHoldingsValue;
+    const totalPortfolioValue = await calculatePortfolioValue(cashValue);
     
     res.json({ 
       success: true, 
       portfolio: {
         value: totalPortfolioValue,
         cash: cashValue,
-        holdingsValue: totalHoldingsValue,
+        holdingsValue: totalPortfolioValue - cashValue,
         winRate: portfolio ? portfolio.winRate : 0,
         totalTrades: portfolio ? portfolio.totalTrades : 0
       }
@@ -608,6 +577,46 @@ const saveTradeToMongoDB = async (tradeData) => {
   }
 };
 
+// Calculate total portfolio value (cash + holdings at current market prices)
+const calculatePortfolioValue = async (cashValue) => {
+  try {
+    const holdings = await loadHoldings();
+    let totalHoldingsValue = 0;
+    
+    for (const [symbol, holding] of Object.entries(holdings)) {
+      if (holding && holding.amount > 0) {
+        const crypto = cryptos.find(c => c.symbol === symbol);
+        if (crypto) {
+          try {
+            const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${crypto.coingecko_id}&vs_currencies=usd`, {
+              headers: {
+                'x-cg-demo-api-key': 'CG-q2ignizEJ8JtUBySUe1wtU1K'
+              }
+            });
+            
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            const currentPrice = data[crypto.coingecko_id]?.usd;
+            if (currentPrice) {
+              totalHoldingsValue += holding.amount * currentPrice;
+            }
+          } catch (error) {
+            console.error(`Error fetching price for ${symbol}:`, error);
+          }
+        }
+      }
+    }
+    
+    return cashValue + totalHoldingsValue;
+  } catch (error) {
+    console.error('Error calculating portfolio value:', error);
+    return cashValue; // Fallback to cash only
+  }
+};
+
 // Get crypto price from CoinGecko
 const getCryptoPrice = async (coingeckoId) => {
   try {
@@ -719,34 +728,8 @@ const executeBuy = async (crypto, price) => {
   
   const cashValue = portfolio.cash - cost;
   
-  // Calculate holdings value using current market prices
-  const existingHoldings = await loadHoldings();
-  let holdingsValue = 0;
-  
-  // Add existing holdings value (using current market prices)
-  for (const [symbol, holding] of Object.entries(existingHoldings)) {
-    if (holding && holding.amount > 0) {
-      // Get current price for this crypto
-      const cryptoForPrice = cryptos.find(c => c.symbol === symbol);
-      if (cryptoForPrice) {
-        try {
-          const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${cryptoForPrice.coingecko_id}&vs_currencies=usd&x_cg_demo_api_key=${process.env.COINGECKO_API_KEY}`);
-          const data = await response.json();
-          const currentPrice = data[cryptoForPrice.coingecko_id]?.usd;
-          if (currentPrice) {
-            holdingsValue += holding.amount * currentPrice;
-          }
-        } catch (error) {
-          console.error(`Error fetching price for ${symbol}:`, error);
-        }
-      }
-    }
-  }
-  
-  // Add new holding value (using current market price, not buy price)
-  holdingsValue += amount * price;
-  
-  const totalPortfolioValue = cashValue + holdingsValue;
+  // Use standardized portfolio calculation
+  const totalPortfolioValue = await calculatePortfolioValue(cashValue);
 
   const tradeData = {
     type: 'buy',
@@ -816,34 +799,8 @@ const executeSell = async (crypto, price) => {
   
   const cashValue = portfolio.cash + profit;
   
-  // Calculate holdings value using current market prices
-  const existingHoldingsForCalc = await loadHoldings();
-  let holdingsValue = 0;
-  
-  // Add existing holdings value (using current market prices)
-  for (const [symbol, holding] of Object.entries(existingHoldingsForCalc)) {
-    if (holding && holding.amount > 0) {
-      // Get current price for this crypto
-      const cryptoForPrice = cryptos.find(c => c.symbol === symbol);
-      if (cryptoForPrice) {
-        try {
-          const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${cryptoForPrice.coingecko_id}&vs_currencies=usd&x_cg_demo_api_key=${process.env.COINGECKO_API_KEY}`);
-          const data = await response.json();
-          const currentPrice = data[cryptoForPrice.coingecko_id]?.usd;
-          if (currentPrice) {
-            holdingsValue += holding.amount * currentPrice;
-          }
-        } catch (error) {
-          console.error(`Error fetching price for ${symbol}:`, error);
-        }
-      }
-    }
-  }
-  
-  // Subtract sold holding value (using current market price)
-  holdingsValue -= holding.amount * price;
-  
-  const totalPortfolioValue = cashValue + holdingsValue;
+  // Use standardized portfolio calculation
+  const totalPortfolioValue = await calculatePortfolioValue(cashValue);
 
   const tradeData = {
     type: 'sell',
