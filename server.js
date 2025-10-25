@@ -702,6 +702,37 @@ const executeBuy = async (crypto, price) => {
   
   if (cost > portfolio.cash * 0.02) return false; // Don't spend more than 2% of cash
   
+  const cashValue = portfolio.cash - cost;
+  
+  // Calculate holdings value using current market prices
+  const existingHoldings = await loadHoldings();
+  let holdingsValue = 0;
+  
+  // Add existing holdings value (using current market prices)
+  for (const [symbol, holding] of Object.entries(existingHoldings)) {
+    if (holding && holding.amount > 0) {
+      // Get current price for this crypto
+      const cryptoForPrice = cryptos.find(c => c.symbol === symbol);
+      if (cryptoForPrice) {
+        try {
+          const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${cryptoForPrice.coingecko_id}&vs_currencies=usd&x_cg_demo_api_key=${process.env.COINGECKO_API_KEY}`);
+          const data = await response.json();
+          const currentPrice = data[cryptoForPrice.coingecko_id]?.usd;
+          if (currentPrice) {
+            holdingsValue += holding.amount * currentPrice;
+          }
+        } catch (error) {
+          console.error(`Error fetching price for ${symbol}:`, error);
+        }
+      }
+    }
+  }
+  
+  // Add new holding value
+  holdingsValue += amount * price;
+  
+  const totalPortfolioValue = cashValue + holdingsValue;
+
   const tradeData = {
     type: 'buy',
     symbol: crypto.symbol,
@@ -709,8 +740,8 @@ const executeBuy = async (crypto, price) => {
     amount: amount,
     price: price,
     cost: cost,
-    cashValue: portfolio.cash - cost,
-    portfolioValue: portfolio.cash - cost, // This will be updated to total portfolio value
+    cashValue: cashValue,
+    portfolioValue: totalPortfolioValue,
     winRate: portfolio.winRate,
     timestamp: new Date().toISOString()
   };
@@ -768,6 +799,37 @@ const executeSell = async (crypto, price) => {
   const profit = proceeds - holding.cost;
   const profitPercent = (profit / holding.cost) * 100;
   
+  const cashValue = portfolio.cash + profit;
+  
+  // Calculate holdings value using current market prices
+  const existingHoldingsForCalc = await loadHoldings();
+  let holdingsValue = 0;
+  
+  // Add existing holdings value (using current market prices)
+  for (const [symbol, holding] of Object.entries(existingHoldingsForCalc)) {
+    if (holding && holding.amount > 0) {
+      // Get current price for this crypto
+      const cryptoForPrice = cryptos.find(c => c.symbol === symbol);
+      if (cryptoForPrice) {
+        try {
+          const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${cryptoForPrice.coingecko_id}&vs_currencies=usd&x_cg_demo_api_key=${process.env.COINGECKO_API_KEY}`);
+          const data = await response.json();
+          const currentPrice = data[cryptoForPrice.coingecko_id]?.usd;
+          if (currentPrice) {
+            holdingsValue += holding.amount * currentPrice;
+          }
+        } catch (error) {
+          console.error(`Error fetching price for ${symbol}:`, error);
+        }
+      }
+    }
+  }
+  
+  // Subtract sold holding value (using current market price)
+  holdingsValue -= holding.amount * price;
+  
+  const totalPortfolioValue = cashValue + holdingsValue;
+
   const tradeData = {
     type: 'sell',
     symbol: crypto.symbol,
@@ -779,8 +841,8 @@ const executeSell = async (crypto, price) => {
     proceeds: proceeds,
     profit: profit,
     profitPercent: profitPercent,
-    cashValue: portfolio.cash + profit,
-    portfolioValue: portfolio.cash + profit, // This will be updated to total portfolio value
+    cashValue: cashValue,
+    portfolioValue: totalPortfolioValue,
     winRate: portfolio.winRate,
     timestamp: new Date().toISOString()
   };
