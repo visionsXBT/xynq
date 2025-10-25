@@ -599,7 +599,7 @@ const backgroundTrading = async () => {
       const prices = priceHistory[crypto.symbol] || [];
       
     // Check for sell signal first (exit existing positions)
-    if (shouldSell(crypto, price)) {
+    if (await shouldSell(crypto, price)) {
       await executeSell(crypto, price);
       tradesExecuted++;
       return; // Exit entire function after 1 trade
@@ -634,10 +634,14 @@ const shouldBuy = (crypto, currentPrice, prices) => {
   return currentPrice < sma5;
 };
 
-const shouldSell = (crypto, currentPrice) => {
-  if (!holdings[crypto.symbol] || holdings[crypto.symbol].amount === 0) return false;
+const shouldSell = async (crypto, currentPrice) => {
+  // Load holdings from database to get the most current weighted average entry price
+  const currentHoldings = await loadHoldings();
+  const holding = currentHoldings[crypto.symbol];
   
-  const entryPrice = holdings[crypto.symbol].entryPrice;
+  if (!holding || holding.amount === 0) return false;
+  
+  const entryPrice = holding.entryPrice; // This should be the weighted average entry price
   const profitPercent = ((currentPrice - entryPrice) / entryPrice) * 100;
   
   // Debug logging
