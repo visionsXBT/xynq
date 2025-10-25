@@ -4,6 +4,8 @@ import './LandingPage.css';
 const TradingBot = ({ onBack, language, setLanguage }) => {
   const [logs, setLogs] = useState([]);
   const [portfolioValue, setPortfolioValue] = useState(2000.00);
+  const [cashValue, setCashValue] = useState(2000.00);
+  const [holdingsValue, setHoldingsValue] = useState(0);
   const [totalTrades, setTotalTrades] = useState(0);
   const [winRate, setWinRate] = useState(0);
   const [holdings, setHoldings] = useState({});
@@ -92,19 +94,25 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
         const portfolio = result.portfolio;
         
         // Handle null/undefined values
-        const value = portfolio.value || 2000.00;
+        const totalValue = portfolio.value || 2000.00;
+        const cashValue = portfolio.cash || 2000.00;
+        const holdingsValue = portfolio.holdingsValue || 0;
         const winRate = portfolio.winRate || 0;
         const totalTrades = portfolio.totalTrades || 0;
         
-        setPortfolioValue(value);
+        setPortfolioValue(totalValue);
+        setCashValue(cashValue);
+        setHoldingsValue(holdingsValue);
         setWinRate(winRate);
         setTotalTrades(totalTrades);
-        portfolioRef.current = value;
+        portfolioRef.current = totalValue;
       }
     } catch (error) {
       console.error('Error loading portfolio:', error);
       // Set defaults on error
       setPortfolioValue(2000.00);
+      setCashValue(2000.00);
+      setHoldingsValue(0);
       setWinRate(0);
       setTotalTrades(0);
       portfolioRef.current = 2000.00;
@@ -268,6 +276,7 @@ const TradingBot = ({ onBack, language, setLanguage }) => {
                     <span style={{ color: '#ffffff' }}>
                       {trade.type === 'buy' && `| Amount: ${trade.amount?.toFixed(6)} | Cost: $${trade.cost?.toFixed(2)}`}
                       {trade.type === 'sell' && `| Entry: $${trade.entryPrice?.toFixed(2)} | PNL: $${trade.profit?.toFixed(2)} (${trade.profitPercent?.toFixed(2)}%)`}
+                      {trade.cashValue && ` | USDT: $${trade.cashValue.toFixed(2)}`}
                       {trade.portfolioValue && ` | Portfolio: $${trade.portfolioValue.toFixed(2)}`}
                       {trade.winRate !== undefined && ` | Win Rate: ${trade.winRate.toFixed(1)}%`}
                     </span>

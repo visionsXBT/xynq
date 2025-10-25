@@ -288,9 +288,42 @@ app.get('/api/portfolio', async (req, res) => {
     const portfolioCollection = db.collection('portfolio');
     const portfolio = await portfolioCollection.findOne({});
     
+    // Calculate current portfolio value (cash + holdings value)
+    const holdings = await loadHoldings();
+    let totalHoldingsValue = 0;
+    
+    // Calculate holdings value based on current prices
+    for (const [symbol, holding] of Object.entries(holdings)) {
+      if (holding && holding.amount > 0) {
+        // Get current price for this crypto
+        const crypto = cryptos.find(c => c.symbol === symbol);
+        if (crypto) {
+          try {
+            const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${crypto.coingecko_id}&vs_currencies=usd&x_cg_demo_api_key=${process.env.COINGECKO_API_KEY}`);
+            const data = await response.json();
+            const currentPrice = data[crypto.coingecko_id]?.usd;
+            if (currentPrice) {
+              totalHoldingsValue += holding.amount * currentPrice;
+            }
+          } catch (error) {
+            console.error(`Error fetching price for ${symbol}:`, error);
+          }
+        }
+      }
+    }
+    
+    const cashValue = portfolio ? portfolio.cash : 2000.00;
+    const totalPortfolioValue = cashValue + totalHoldingsValue;
+    
     res.json({ 
       success: true, 
-      portfolio: portfolio || { value: 2000.00, winRate: 0, totalTrades: 0 }
+      portfolio: {
+        value: totalPortfolioValue,
+        cash: cashValue,
+        holdingsValue: totalHoldingsValue,
+        winRate: portfolio ? portfolio.winRate : 0,
+        totalTrades: portfolio ? portfolio.totalTrades : 0
+      }
     });
   } catch (error) {
     console.error('Error fetching portfolio:', error);
@@ -512,24 +545,24 @@ const saveHoldings = async (holdingsData) => {
 // Load portfolio from database
 const loadPortfolio = async () => {
   try {
-    if (!db) return { value: 2000.00, winRate: 0, totalTrades: 0 };
+    if (!db) return { cash: 2000.00, winRate: 0, totalTrades: 0 };
     const portfolioCollection = db.collection('portfolio');
     const result = await portfolioCollection.findOne({});
-    return result || { value: 2000.00, winRate: 0, totalTrades: 0 };
+    return result || { cash: 2000.00, winRate: 0, totalTrades: 0 };
   } catch (error) {
     console.error('Error loading portfolio:', error);
-    return { value: 2000.00, winRate: 0, totalTrades: 0 };
+    return { cash: 2000.00, winRate: 0, totalTrades: 0 };
   }
 };
 
 // Save portfolio to database
-const savePortfolio = async (value, winRate, totalTrades) => {
+const savePortfolio = async (cash, winRate, totalTrades) => {
   try {
     if (!db) return false;
     const portfolioCollection = db.collection('portfolio');
     await portfolioCollection.replaceOne(
       {},
-      { value, winRate, totalTrades, updatedAt: new Date() },
+      { cash, winRate, totalTrades, updatedAt: new Date() },
       { upsert: true }
     );
     return true;
@@ -659,7 +692,7 @@ const executeBuy = async (crypto, price) => {
   const amount = Math.random() * 0.1 + 0.02; // Even smaller trade amounts
   const cost = amount * price;
   
-  if (cost > portfolio.value * 0.02) return false; // Don't spend more than 2% of portfolio
+  if (cost > portfolio.cash * 0.02) return false; // Don't spend more than 2% of cash
   
   const tradeData = {
     type: 'buy',
@@ -668,7 +701,8 @@ const executeBuy = async (crypto, price) => {
     amount: amount,
     price: price,
     cost: cost,
-    portfolioValue: portfolio.value - cost,
+    cashValue: portfolio.cash - cost,
+    portfolioValue: portfolio.cash - cost, // This will be updated to total portfolio value
     winRate: portfolio.winRate,
     timestamp: new Date().toISOString()
   };
@@ -695,8 +729,8 @@ const executeBuy = async (crypto, price) => {
   }
   
   // Update portfolio
-  const newPortfolioValue = portfolio.value - cost;
-  await savePortfolio(newPortfolioValue, portfolio.winRate, portfolio.totalTrades);
+  const newCashValue = portfolio.cash - cost;
+  await savePortfolio(newCashValue, portfolio.winRate, portfolio.totalTrades);
   
   // Save holdings properly - merge with existing holdings instead of replacing
   await saveHoldingsProperly(currentHoldings);
@@ -737,7 +771,8 @@ const executeSell = async (crypto, price) => {
     proceeds: proceeds,
     profit: profit,
     profitPercent: profitPercent,
-    portfolioValue: portfolio.value + profit,
+    cashValue: portfolio.cash + profit,
+    portfolioValue: portfolio.cash + profit, // This will be updated to total portfolio value
     winRate: portfolio.winRate,
     timestamp: new Date().toISOString()
   };
@@ -749,12 +784,12 @@ const executeSell = async (crypto, price) => {
   delete updatedHoldings[crypto.symbol]; // Remove the crypto completely instead of setting to 0
   
   // Update portfolio
-  const newPortfolioValue = portfolio.value + profit;
+  const newCashValue = portfolio.cash + profit;
   const newTotalTrades = portfolio.totalTrades + 1;
   const newWins = Math.floor(portfolio.winRate * portfolio.totalTrades / 100) + (profit > 0 ? 1 : 0);
   const newWinRate = (newWins / newTotalTrades) * 100;
   
-  await savePortfolio(newPortfolioValue, newWinRate, newTotalTrades);
+  await savePortfolio(newCashValue, newWinRate, newTotalTrades);
   await saveHoldingsProperly(updatedHoldings);
   
   // Update in-memory holdings
