@@ -305,7 +305,16 @@ app.get('/api/portfolio', async (req, res) => {
         const crypto = cryptos.find(c => c.symbol === symbol);
         if (crypto) {
           try {
-            const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${crypto.coingecko_id}&vs_currencies=usd&x_cg_demo_api_key=${process.env.COINGECKO_API_KEY}`);
+            const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${crypto.coingecko_id}&vs_currencies=usd`, {
+              headers: {
+                'x-cg-demo-api-key': 'CG-q2ignizEJ8JtUBySUe1wtU1K'
+              }
+            });
+            
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
             const data = await response.json();
             const currentPrice = data[crypto.coingecko_id]?.usd;
             if (currentPrice) {
