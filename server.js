@@ -547,7 +547,6 @@ const loadPortfolio = async () => {
   }
 };
 
-// Save portfolio to database
 const savePortfolio = async (cash, winRate, totalTrades) => {
   try {
     if (!db) return false;
@@ -577,7 +576,6 @@ const saveTradeToMongoDB = async (tradeData) => {
   }
 };
 
-// Calculate total portfolio value (cash + holdings at current market prices)
 const calculatePortfolioValue = async (cashValue) => {
   try {
     const holdings = await loadHoldings();
@@ -667,14 +665,14 @@ const backgroundTrading = async () => {
     if (await shouldSell(crypto, price)) {
       await executeSell(crypto, price);
       tradesExecuted++;
-      return; // Exit entire function after 1 trade
+      return; 
     }
     
     // Check for buy signal only if we have enough price history
     if (shouldBuy(crypto, price, prices)) {
       await executeBuy(crypto, price);
       tradesExecuted++;
-      return; // Exit entire function after 1 trade
+      return; 
     }
     }
     
@@ -699,6 +697,9 @@ const shouldBuy = (crypto, currentPrice, prices) => {
   return currentPrice < sma5;
 };
 
+// Track last sell times to prevent rapid selling
+const lastSellTimes = {};
+
 const shouldSell = async (crypto, currentPrice) => {
   // Load holdings from database to get the most current weighted average entry price
   const currentHoldings = await loadHoldings();
@@ -706,14 +707,23 @@ const shouldSell = async (crypto, currentPrice) => {
   
   if (!holding || holding.amount === 0) return false;
   
+  // Check cooldown - prevent selling same crypto within 30 seconds
+  const now = Date.now();
+  const lastSellTime = lastSellTimes[crypto.symbol] || 0;
+  if (now - lastSellTime < 30000) { // 30 second cooldown
+    return false;
+  }
+  
   const entryPrice = holding.entryPrice; // This should be the weighted average entry price
   const profitPercent = ((currentPrice - entryPrice) / entryPrice) * 100;
   
   // Debug logging
   console.log(`[SELL CHECK] ${crypto.symbol}: Current $${currentPrice.toFixed(2)} | Entry $${entryPrice.toFixed(2)} | PNL ${profitPercent.toFixed(2)}%`);
   
-  // Lenient sell criteria - sell on small profit or small loss
-  return profitPercent > 0.1 || profitPercent < -0.1; // Sell on 0.1% profit or 0.1% loss
+  // More reasonable sell criteria:
+  // - Take profit at 3% gain
+  // - Stop loss at -2% loss
+  return profitPercent > 3.0 || profitPercent < -2.0;
 };
 
 // Execute buy trade
@@ -836,6 +846,9 @@ const executeSell = async (crypto, price) => {
   
   // Update in-memory holdings
   holdings = updatedHoldings;
+  
+  // Record sell time for cooldown
+  lastSellTimes[crypto.symbol] = Date.now();
   
   console.log(`[BACKGROUND SELL] ${crypto.symbol} @ $${price.toFixed(2)} | Entry: $${holding.entryPrice.toFixed(2)} | PNL: $${profit.toFixed(2)} (${profitPercent.toFixed(2)}%)`);
   return true;
