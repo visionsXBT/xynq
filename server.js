@@ -469,8 +469,16 @@ const saveHoldingsProperly = async (newHoldingsData) => {
       return holdings;
     })() : {};
     
-    // Merge new holdings with existing holdings
-    const mergedHoldings = { ...existingHoldings, ...newHoldingsData };
+    // Merge new holdings with existing holdings, but don't re-add deleted cryptos
+    const mergedHoldings = { ...existingHoldings };
+    for (const [symbol, holding] of Object.entries(newHoldingsData)) {
+      if (holding && holding.amount > 0) {
+        mergedHoldings[symbol] = holding;
+      } else {
+        // If holding is null/undefined or amount is 0, remove it
+        delete mergedHoldings[symbol];
+      }
+    }
     
     // Remove any holdings with 0 amount
     const cleanedHoldings = {};
