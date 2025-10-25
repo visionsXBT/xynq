@@ -312,7 +312,7 @@ app.get('/api/portfolio', async (req, res) => {
       }
     }
     
-    const cashValue = portfolio ? portfolio.cash : 2000.00;
+    const cashValue = portfolio ? (portfolio.cash || portfolio.value || 2000.00) : 2000.00;
     const totalPortfolioValue = cashValue + totalHoldingsValue;
     
     res.json({ 
@@ -548,7 +548,15 @@ const loadPortfolio = async () => {
     if (!db) return { cash: 2000.00, winRate: 0, totalTrades: 0 };
     const portfolioCollection = db.collection('portfolio');
     const result = await portfolioCollection.findOne({});
-    return result || { cash: 2000.00, winRate: 0, totalTrades: 0 };
+    if (!result) return { cash: 2000.00, winRate: 0, totalTrades: 0 };
+    
+    // Handle both old and new portfolio structures
+    const cash = result.cash || result.value || 2000.00;
+    return { 
+      cash, 
+      winRate: result.winRate || 0, 
+      totalTrades: result.totalTrades || 0 
+    };
   } catch (error) {
     console.error('Error loading portfolio:', error);
     return { cash: 2000.00, winRate: 0, totalTrades: 0 };
