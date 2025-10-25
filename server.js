@@ -598,19 +598,19 @@ const backgroundTrading = async () => {
       
       const prices = priceHistory[crypto.symbol] || [];
       
-      // Check for sell signal first (exit existing positions)
-      if (shouldSell(crypto, price)) {
-        await executeSell(crypto, price);
-        tradesExecuted++;
-        break; // Only execute 1 trade per scan
-      }
-      
-      // Check for buy signal only if we have enough price history
-      if (shouldBuy(crypto, price, prices)) {
-        await executeBuy(crypto, price);
-        tradesExecuted++;
-        break; // Only execute 1 trade per scan
-      }
+    // Check for sell signal first (exit existing positions)
+    if (shouldSell(crypto, price)) {
+      await executeSell(crypto, price);
+      tradesExecuted++;
+      return; // Exit entire function after 1 trade
+    }
+    
+    // Check for buy signal only if we have enough price history
+    if (shouldBuy(crypto, price, prices)) {
+      await executeBuy(crypto, price);
+      tradesExecuted++;
+      return; // Exit entire function after 1 trade
+    }
     }
     
     // Only log if no trades were executed
