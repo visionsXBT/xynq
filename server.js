@@ -289,7 +289,13 @@ app.get('/api/portfolio', async (req, res) => {
     const portfolio = await portfolioCollection.findOne({});
     
     // Calculate current portfolio value (cash + holdings value)
-    const holdings = await loadHoldings();
+    const holdingsCollection = db.collection('holdings');
+    const holdingsResult = await holdingsCollection.findOne({});
+    const holdings = holdingsResult ? (() => {
+      const { _id, ...holdingsData } = holdingsResult;
+      return holdingsData;
+    })() : {};
+    
     let totalHoldingsValue = 0;
     
     // Calculate holdings value based on current prices
@@ -728,7 +734,7 @@ const executeBuy = async (crypto, price) => {
     }
   }
   
-  // Add new holding value
+  // Add new holding value (using current market price, not buy price)
   holdingsValue += amount * price;
   
   const totalPortfolioValue = cashValue + holdingsValue;
