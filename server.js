@@ -921,10 +921,17 @@ const executeBuy = async (crypto, price) => {
   // Reload portfolio from database to get the most recent value
   const portfolio = await loadPortfolio();
   
-  const amount = Math.random() * 0.1 + 0.02; // Even smaller trade amounts
-  const cost = amount * price;
+  // Calculate trade size in dollars (2% of cash)
+  const maxTradeSize = portfolio.cash * 0.02;
   
-  if (cost > portfolio.cash * 0.02) return false; // Don't spend more than 2% of cash
+  // Use a random amount between 50% and 100% of max trade size
+  const cost = maxTradeSize * (Math.random() * 0.5 + 0.5);
+  
+  // If we don't have enough cash, don't trade
+  if (cost > portfolio.cash) return false;
+  
+  // Calculate crypto amount based on dollar cost
+  const amount = cost / price;
   
   const cashValue = portfolio.cash - cost;
   
