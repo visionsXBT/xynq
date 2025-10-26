@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import './LandingPage.css';
 import Backrooms from './Backrooms';
 import TradingBot from './TradingBot';
+import BotBuilder from './BotBuilder';
 import TypingText from './TypingText';
 import useScreenWidth from '../hooks/useScreenWidth';
 
@@ -39,7 +40,8 @@ const LandingPage = () => {
         xcom: "x.com/invertbox",
         invertbox: "InvertBox",
         backrooms: "backrooms",
-        trading: "trading bot"
+        trading: "trading bot",
+        botBuilder: "bot builder"
       }
     },
     zh: {
@@ -64,7 +66,8 @@ const LandingPage = () => {
         xcom: "x.com/invertbox",
         invertbox: "InvertBox",
         backrooms: "密室",
-        trading: "交易机器人"
+        trading: "交易机器人",
+        botBuilder: "机器人构建器"
       }
     }
   };
@@ -211,6 +214,9 @@ const LandingPage = () => {
   if (currentPage === 'trading') {
     return <TradingBot onBack={handleBackToMain} language={language} setLanguage={setLanguage} />;
   }
+  if (currentPage === 'bot-builder') {
+    return <BotBuilder onBack={handleBackToMain} language={language} setLanguage={setLanguage} />;
+  }
 
   return (
     <div className="terminal-page">
@@ -275,6 +281,8 @@ const LandingPage = () => {
             <span className="command-option" onClick={() => handleNavigation('backrooms')}>{translations[language].navigation.backrooms}</span>
             {/* <span className="separator">✦</span> */}
             <span className="command-option" onClick={() => handleNavigation('trading')}>{translations[language].navigation.trading}</span>
+            {/* <span className="separator">✦</span> */}
+            <span className="command-option" onClick={() => handleNavigation('bot-builder')}>{translations[language].navigation.botBuilder}</span>
           </div>
           
           

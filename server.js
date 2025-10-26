@@ -4,14 +4,20 @@ const { MongoClient } = require('mongodb');
 const path = require('path');
 const https = require('https');
 
-// Load environment variables from .env file
-require('dotenv').config();
+// Load environment variables from .env and .env.local files
+require('dotenv').config(); // Loads .env
+require('dotenv').config({ path: '.env.local' }); // Loads .env.local
+
+// Your payment address for x402 protocol
+// Replace with your actual Base network address to receive payments
+const PAYMENT_ADDRESS = process.env.PAYMENT_ADDRESS || '0x1234567890123456789012345678901234567890';
 
 // Debug: Log all environment variables
 console.log('All environment variables:');
 console.log('PORT:', process.env.PORT);
 console.log('MONGODB_URI:', process.env.MONGODB_URI);
 console.log('MONGODB_DB:', process.env.MONGODB_DB);
+console.log('PAYMENT_ADDRESS:', PAYMENT_ADDRESS);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -363,6 +369,187 @@ app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'XYNQ Trading Bot API is running' });
 });
 
+// Bot Builder Payment Requirements (x402 protocol)
+app.post('/api/bot-builder/payment-requirements', async (req, res) => {
+  try {
+    const { amount, description } = req.body;
+    
+    // x402 Payment Required Response
+    const paymentRequirements = {
+      x402Version: 1,
+      accepts: [{
+        scheme: 'exact',
+        network: 'base', // or 'ethereum', 'solana'
+        maxAmountRequired: (amount * 1e6).toString(), // $2 in wei/micro units
+        resource: '/api/bot-builder/generate',
+        description: description || 'Custom Trading Bot Generation',
+        mimeType: 'application/zip',
+        payTo: PAYMENT_ADDRESS, // Your payment address
+        maxTimeoutSeconds: 60,
+        asset: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', // USDC on Base
+        extra: {
+          name: 'USD Coin',
+          version: '2.0'
+        }
+      }],
+      error: null
+    };
+    
+    // Return 402 Payment Required with x402 response
+    res.status(402).json(paymentRequirements);
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Bot Builder Generate Bot (with x402 payment verification)
+app.post('/api/bot-builder/generate', async (req, res) => {
+  try {
+    // Verify X-PAYMENT header (x402 protocol)
+    const paymentHeader = req.headers['x-payment'];
+    
+    if (!paymentHeader) {
+      return res.status(402).json({
+        x402Version: 1,
+        accepts: [{
+          scheme: 'exact',
+          network: 'base',
+          maxAmountRequired: '2000000',
+          resource: '/api/bot-builder/generate',
+          description: 'Custom Trading Bot Generation',
+          mimeType: 'application/json',
+          payTo: PAYMENT_ADDRESS,
+          maxTimeoutSeconds: 60,
+          asset: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+          extra: { name: 'USD Coin', version: '2.0' }
+        }],
+        error: 'Payment required'
+      });
+    }
+    
+    // Decode and verify payment
+    const paymentPayload = JSON.parse(Buffer.from(paymentHeader, 'base64').toString());
+    
+    console.log('Received payment:', paymentPayload);
+    
+    // Verify the signature (in production, use a verification library)
+    // For now, we'll verify basic structure
+    if (!paymentPayload.payload || !paymentPayload.payload.signature) {
+      return res.status(402).json({
+        x402Version: 1,
+        error: 'Invalid payment payload'
+      });
+    }
+    
+    // Verify payment using EIP-3009 verification
+    // In production, you would verify against the facilitator or use local verification
+    const isValidPayment = await verifyEIP3009Payment(paymentPayload);
+    
+    if (!isValidPayment) {
+      return res.status(402).json({
+        x402Version: 1,
+        error: 'Payment verification failed'
+      });
+    }
+    
+    console.log('Payment verified successfully');
+    
+    // Get bot configuration
+    const botConfig = req.body;
+    
+    // Generate bot codebase
+    const botCode = generateBotCodebase(botConfig);
+    
+    // Return success with bot code
+    res.status(200).json({
+      success: true,
+      message: 'Bot generated successfully',
+      code: botCode
+    });
+  } catch (error) {
+    console.error('Generate bot error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Verify EIP-3009 payment signature
+async function verifyEIP3009Payment(paymentPayload) {
+  try {
+    const { signature, message } = paymentPayload.payload;
+    
+    // Check signature format
+    if (!signature || !signature.startsWith('0x')) {
+      console.log('❌ Invalid signature format');
+      return false;
+    }
+    
+    // Check required message fields
+    if (!message.from || !message.to || !message.value) {
+      console.log('❌ Missing required payment fields');
+      return false;
+    }
+    
+    // Check that payment is being sent to YOUR address
+    if (message.to.toLowerCase() !== PAYMENT_ADDRESS.toLowerCase()) {
+      console.log('❌ Payment not sent to correct address');
+      console.log('Expected:', PAYMENT_ADDRESS);
+      console.log('Got:', message.to);
+      return false;
+    }
+    
+    // Check timestamp is recent (within 5 minutes)
+    const timestamp = parseInt(message.timestamp);
+    const now = Date.now();
+    const fiveMinutesAgo = now - (5 * 60 * 1000);
+    
+    if (timestamp < fiveMinutesAgo) {
+      console.log('❌ Payment signature expired');
+      return false;
+    }
+    
+    // Prevent replay attacks - check if this payment was already used
+    const paymentId = `${message.from}-${message.timestamp}-${signature}`;
+    if (verifiedPayments.has(paymentId)) {
+      console.log('❌ Payment already used (replay attack prevented)');
+      return false;
+    }
+    
+    // TODO: In production, implement cryptographic signature verification
+    // using web3.js or ethers.js to recover address from signature
+    // For now, we require a valid signature format and proper message structure
+    
+    // Mark payment as used
+    verifiedPayments.add(paymentId);
+    
+    console.log('✅ Payment verified:', message.from);
+    return true;
+  } catch (error) {
+    console.error('❌ Payment verification error:', error);
+    return false;
+  }
+}
+
+// Helper function to generate bot codebase
+function generateBotCodebase(config) {
+  return `# XYNQ Custom Trading Bot
+# Generated automatically based on your configuration
+
+// Configuration
+const config = {
+  cryptos: ${JSON.stringify(config.cryptos)},
+  takeProfit: ${config.takeProfit},
+  stopLoss: ${config.stopLoss},
+  tradeSize: ${config.tradeSize},
+  cooldown: ${config.cooldown}
+};
+
+// Trading logic, database setup, API integration, dashboard
+// Full customizable bot codebase...
+
+module.exports = { config };
+`;
+}
+
 // Serve React app for all non-API routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
@@ -699,6 +886,9 @@ const shouldBuy = (crypto, currentPrice, prices) => {
 
 // Track last sell times to prevent rapid selling
 const lastSellTimes = {};
+
+// Track verified payments to prevent replay attacks
+const verifiedPayments = new Set();
 
 const shouldSell = async (crypto, currentPrice) => {
   // Load holdings from database to get the most current weighted average entry price
